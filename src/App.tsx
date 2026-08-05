@@ -232,25 +232,28 @@ function App() {
         <section className="section-pad" id="dat-lich">
           <div className="container case-grid">
             <div className="case-panel" data-reveal="left">
-              <div className="eyebrow">Hẹn gặp xem demo</div>
+              <div className="eyebrow">Trải nghiệm thực tế</div>
               <h2>
-                Gặp trực tiếp một buổi,{' '}
-                <span className="italic-accent">xem hệ thống chạy thật.</span>
+                Trải nghiệm trực tiếp hệ thống AI{' '}
+                <span className="italic-accent">vận hành trên dữ liệu thật.</span>
               </h2>
               <p className="lead">
-                Locaith mời anh chị tới văn phòng tại Trung tâm Đổi mới Sáng tạo Quốc gia — số 7 Tôn Thất Thuyết, Hà
-                Nội — hoặc gặp trực tuyến nếu ở xa. Một buổi khoảng 45 phút là đủ để thấy giải pháp vận hành ra sao.
+                Trân trọng mời Anh/Chị ghé thăm văn phòng Locaith tại Trung tâm Đổi mới Sáng tạo Quốc gia (NIC) — hoặc
+                kết nối trực tuyến. Trong 45 phút làm việc, chúng tôi sẽ minh họa trực tiếp cách hệ thống AI tự động
+                hóa quy trình vận hành và tối ưu chi phí cho doanh nghiệp BĐS của Anh/Chị.
               </p>
               <div className="case-checks" data-stagger="left">
                 {[
-                  'Xem hệ thống chạy trực tiếp, không phải bản trình chiếu',
-                  'Dựng thử trên chính dữ liệu quảng cáo của doanh nghiệp',
-                  'Ước lượng phạm vi, thời gian và chi phí triển khai',
-                  'Trao đổi thẳng với đội trực tiếp làm sản phẩm',
-                ].map((item) => (
-                  <div key={item}>
+                  ['Trải nghiệm On-live', 'Thao tác trực tiếp trên hệ thống, không qua slide trình chiếu.'],
+                  ['Test-drive trên Dữ liệu thật', 'Mô phỏng giải pháp ngay trên data quảng cáo của bạn.'],
+                  ['Lộ trình triển khai rõ ràng', 'Xác định chính xác phạm vi, thời gian và ROI.'],
+                  ['Làm việc cùng Chuyên gia', 'Trao đổi trực tiếp với Đội ngũ Kiến trúc sư AI.'],
+                ].map(([title, note]) => (
+                  <div key={title}>
                     <Check />
-                    {item}
+                    <span>
+                      <strong>{title}:</strong> {note}
+                    </span>
                   </div>
                 ))}
               </div>
