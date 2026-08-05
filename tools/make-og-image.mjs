@@ -1,10 +1,12 @@
 /**
- * Dựng ảnh chia sẻ mạng xã hội public/og-image.png (1200×630).
+ * Dựng ảnh chia sẻ mạng xã hội public/og-cover.png (1200×630).
  *
  *   npm i -D playwright-core
  *   node tools/make-og-image.mjs
  *
- * Chạy lại mỗi khi đổi tiêu đề hoặc hệ màu của trang.
+ * Chạy lại mỗi khi đổi tiêu đề hoặc hệ màu của trang. Zalo và Facebook lưu ảnh
+ * theo đường dẫn, nên sau khi dựng lại PHẢI đổi luôn tên file rồi sửa thẻ
+ * og:image trong index.html — giữ nguyên tên thì bên kia vẫn hiện ảnh cũ.
  */
 import { chromium } from 'playwright-core'
 import fs from 'node:fs'
@@ -61,7 +63,7 @@ const browser = await chromium.launch({ executablePath: CHROME })
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 }, deviceScaleFactor: 1 })
 await page.setContent(html, { waitUntil: 'networkidle' })
 await page.waitForTimeout(2000)
-await page.screenshot({ path: 'public/og-image.png' })
+await page.screenshot({ path: 'public/og-cover.png' })
 await browser.close()
 
-console.log('public/og-image.png', (fs.statSync('public/og-image.png').size / 1024).toFixed(0) + 'KB')
+console.log('public/og-cover.png', (fs.statSync('public/og-cover.png').size / 1024).toFixed(0) + 'KB')
