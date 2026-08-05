@@ -19,7 +19,7 @@ import { FloatingWidgets } from './components/FloatingWidgets'
 import { KineticText, type Segment } from './components/KineticText'
 import { ModelGrid } from './components/ModelGrid'
 import { Stage } from './components/Stage'
-import { beats, models, pains, signals } from './content'
+import { beats, dataChain, models, signals } from './content'
 import { photoCredits } from './credits'
 import { siteConfig } from './config'
 import { prefersReducedMotion, useRevealOnScroll, useScrolledPast } from './lib/useStage'
@@ -74,7 +74,7 @@ const capabilities = [
  * tính lại liên tục và chữ sẽ nhấp nháy không ngừng.
  */
 const HERO_EYEBROW: Segment[] = [{ text: siteConfig.productTagline }]
-const HERO_LINE_1: Segment[] = [{ text: 'Biết chắc khoản chi nào' }]
+const HERO_LINE_1: Segment[] = [{ text: 'Biết chính xác khoản chi nào' }]
 const HERO_LINE_2: Segment[] = [{ text: 'tạo doanh thu.', mode: 'rise', gradient: true }]
 const HERO_LEAD: Segment[] = [
   { text: 'Locaith gom và nối dữ liệu quảng cáo, khách hàng, bán hàng và nội dung vào một hệ thống' },
@@ -114,20 +114,24 @@ function App() {
         <section className="section-pad" id="bai-toan">
           <div className="container split-grid">
             <div data-reveal="left">
-              <div className="eyebrow">Khoảng trống vận hành</div>
+              <div className="eyebrow">Chuẩn hoá dữ liệu xuyên suốt</div>
               <h2>
-                Không thiếu công cụ. <span className="italic-accent">Thiếu một mạch dữ liệu liền.</span>
+                Không thiếu công cụ. <span className="italic-accent">Thiếu một chuẩn dữ liệu chung.</span>
               </h2>
               <p className="lead">
-                Thêm phần mềm không vá được dữ liệu phân mảnh. Locaith dựng một lớp vận hành chung giữa quảng cáo, nội
-                dung, khách hàng và quản trị — để mọi con số nói cùng một ngôn ngữ.
+                Mỗi bộ phận đang đo một kiểu nên cùng một câu hỏi lại ra ba con số khác nhau. Locaith chuẩn hoá dữ liệu
+                suốt chặng từ lúc quảng cáo chạy đến lúc hợp đồng ký — một bộ định nghĩa, một cách tính, dùng chung cho
+                marketing, kinh doanh và ban lãnh đạo.
               </p>
             </div>
             <div className="pain-list" data-stagger="right">
-              {pains.map((pain, index) => (
-                <div className="pain-row" key={pain}>
+              {dataChain.map((step, index) => (
+                <div className="pain-row" key={step.title}>
                   <span className="pain-index">0{index + 1}</span>
-                  <p>{pain}</p>
+                  <div>
+                    <h3>{step.title}</h3>
+                    <p>{step.text}</p>
+                  </div>
                 </div>
               ))}
             </div>

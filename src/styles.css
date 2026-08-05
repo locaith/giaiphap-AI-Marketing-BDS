@@ -919,9 +919,17 @@ footer {
   line-height: 1.2;
 }
 
+.pain-row h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
 .pain-row p {
-  color: var(--ink-2);
-  font-size: 1.02rem;
+  margin-top: 5px;
+  color: var(--ink-3);
+  font-size: 0.94rem;
+  line-height: 1.6;
 }
 
 /* ---------------------------------------------------------

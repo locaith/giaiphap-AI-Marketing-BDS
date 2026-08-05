@@ -51,7 +51,7 @@ const html = `<!doctype html><html lang="vi"><head><meta charset="utf-8">
   <div class="shot"><img src="${shot}"></div>
   <div class="wrap">
     <div class="brand"><img src="${logo}">LOCAITH <small>AI BĐS</small></div>
-    <h1>Biết chắc khoản chi nào <i>tạo doanh thu.</i></h1>
+    <h1>Biết chính xác khoản chi nào <i>tạo doanh thu.</i></h1>
     <p>Giải pháp AI Marketing cho Bất động sản.</p>
     <div class="foot">ai-bds.locaith.com</div>
   </div>

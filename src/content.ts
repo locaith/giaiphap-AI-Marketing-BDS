@@ -84,11 +84,27 @@ export const beats: Beat[] = [
   },
 ]
 
-export const pains = [
-  'Dữ liệu quảng cáo nằm riêng một nơi, dữ liệu khách hàng và báo cáo bán hàng nằm một nơi khác.',
-  'Báo cáo làm tay luôn chậm hơn nhịp thay đổi của chiến dịch.',
-  'Nội dung, hình ảnh và video phải sản xuất với tốc độ ngày càng cao.',
-  'Lãnh đạo có dữ liệu nhưng vẫn khó đặt câu hỏi và nhận câu trả lời ngay.',
+/**
+ * Bốn bước chuẩn hoá, đi liền một mạch từ đồng quảng cáo đầu tiên tới hợp đồng
+ * cuối cùng. Mô tả bám đúng việc hệ thống đang làm, không hứa thêm.
+ */
+export const dataChain = [
+  {
+    title: 'Gom về một mối',
+    text: 'Quảng cáo, form đăng ký, tin nhắn, cuộc gọi, phần mềm quản lý khách hàng và file Excel của từng sàn đổ về cùng một nơi.',
+  },
+  {
+    title: 'Một bộ định nghĩa duy nhất',
+    text: 'Thế nào là khách đủ điều kiện, thế nào là hợp đồng đã chốt — chốt một lần rồi áp cho mọi kỳ báo cáo và mọi bộ phận.',
+  },
+  {
+    title: 'Khử trùng lặp theo số điện thoại',
+    text: 'Một người để lại thông tin ở nhiều chiến dịch vẫn chỉ tính là một khách, nên số liệu không bị cộng dồn ảo.',
+  },
+  {
+    title: 'Nối ngược về khoản chi',
+    text: 'Mỗi hợp đồng truy được ra đúng chiến dịch, đúng nội dung và đúng số tiền đã bỏ ra để có nó.',
+  },
 ]
 
 export type ModelProvider = {
