@@ -74,13 +74,13 @@ const capabilities = [
  * tính lại liên tục và chữ sẽ nhấp nháy không ngừng.
  */
 const HERO_EYEBROW: Segment[] = [{ text: siteConfig.productTagline }]
-const HERO_LINE_1: Segment[] = [{ text: 'Mỗi đồng ngân sách' }]
-const HERO_LINE_2: Segment[] = [{ text: 'đều biết nó đã đi về đâu.', mode: 'rise', gradient: true }]
+const HERO_LINE_1: Segment[] = [{ text: 'Biết chắc khoản chi nào' }]
+const HERO_LINE_2: Segment[] = [{ text: 'tạo doanh thu.', mode: 'rise', gradient: true }]
 const HERO_LEAD: Segment[] = [
-  { text: 'Locaith nối quảng cáo với dữ liệu khách hàng, chiến dịch và báo cáo — để chủ đầu tư và sàn phân phối' },
-  { text: 'nhìn thấy hiệu quả thật', mode: 'rise', className: 'lead-em' },
-  { text: 'và ra quyết định' },
-  { text: 'ngay trên số liệu.', mode: 'rise', className: 'lead-em' },
+  { text: 'Locaith gom và nối dữ liệu quảng cáo, khách hàng, bán hàng và nội dung vào một hệ thống' },
+  { text: 'được thiết kế riêng cho từng doanh nghiệp,', mode: 'rise', className: 'lead-em' },
+  { text: 'giúp theo dõi hiệu quả, làm báo cáo nhanh và' },
+  { text: 'ra quyết định bằng AI.', mode: 'rise', className: 'lead-em' },
 ]
 
 /** Một vòng chữ mở đầu: chạy hết khoảng 6 giây rồi đứng yên gần 7 giây cho người đọc. */
