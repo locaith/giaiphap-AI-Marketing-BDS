@@ -12,13 +12,17 @@ export function prefersReducedMotion() {
 }
 
 /**
- * Progress 0 → 1 of how far a tall section has been scrolled through.
- * Only recalculates while the section is on screen, and skips React updates
- * when the rounded value has not moved.
+ * Tiến độ 0 → 1 của quãng cuộn qua một khối cao.
+ *
+ * Không dùng state của React: mỗi khung hình mà gọi setState thì cả cây phần tử
+ * bên trong phải dựng lại, trên điện thoại là giật thấy rõ. Thay vào đó tiến độ
+ * được đẩy thẳng vào một hàm để ghi trực tiếp lên DOM. Chỉ tính khi khối còn
+ * trong tầm nhìn.
  */
-export function useSectionProgress<T extends HTMLElement>() {
+export function useSectionProgress<T extends HTMLElement>(onProgress: (value: number) => void) {
   const ref = useRef<T>(null)
-  const [progress, setProgress] = useState(0)
+  const handler = useRef(onProgress)
+  handler.current = onProgress
 
   useEffect(() => {
     const element = ref.current
@@ -33,10 +37,9 @@ export function useSectionProgress<T extends HTMLElement>() {
       const rect = element.getBoundingClientRect()
       const scrollable = rect.height - window.innerHeight
       const next = scrollable <= 0 ? 0 : clamp(-rect.top / scrollable)
-      const rounded = Math.round(next * 2000) / 2000
-      if (rounded === last) return
-      last = rounded
-      setProgress(rounded)
+      if (Math.abs(next - last) < 0.0004) return
+      last = next
+      handler.current(next)
     }
 
     const request = () => {
@@ -55,7 +58,7 @@ export function useSectionProgress<T extends HTMLElement>() {
     observer.observe(element)
     measure()
     window.addEventListener('scroll', request, { passive: true })
-    window.addEventListener('resize', request)
+    window.addEventListener('resize', request, { passive: true })
 
     return () => {
       observer.disconnect()
@@ -65,7 +68,7 @@ export function useSectionProgress<T extends HTMLElement>() {
     }
   }, [])
 
-  return { ref, progress }
+  return ref
 }
 
 /** True once the page has scrolled past `offset` pixels. */

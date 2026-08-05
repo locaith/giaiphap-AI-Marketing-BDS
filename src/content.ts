@@ -99,14 +99,13 @@ export type ModelProvider = {
   /** Tỷ lệ gốc của file logo — giữ đúng để ảnh không bị méo và không nhảy layout. */
   ratio?: number
   /** Nhà cung cấp chưa có logo dùng lại được thì vẽ dấu hiệu riêng. */
-  mark?: 'kimi' | 'private'
+  mark?: 'private'
 }
 
 export const models: ModelProvider[] = [
   { name: 'Claude', role: 'Phân tích sâu', logo: '/logos/claude.svg', ratio: 1 },
   { name: 'GPT', role: 'Tác vụ tổng quát', logo: '/logos/openai.svg', ratio: 1 },
   { name: 'Gemini', role: 'Hệ sinh thái Google', logo: '/logos/gemini.svg', ratio: 1 },
-  { name: 'Kimi', role: 'Ngữ cảnh dài', mark: 'kimi' },
   { name: 'Seedance', role: 'Sinh video · ByteDance', logo: '/logos/bytedance.svg', ratio: 5.8 },
   { name: 'Mô hình riêng', role: 'Chạy trong hạ tầng nội bộ', mark: 'private' },
 ]

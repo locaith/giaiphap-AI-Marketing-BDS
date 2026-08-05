@@ -44,23 +44,14 @@ function LazyLogo({ item }: { item: ModelProvider }) {
 }
 
 /** Dấu hiệu tự vẽ cho nhà cung cấp không có logo dùng lại được. */
-function Mark({ kind }: { kind?: 'kimi' | 'private' }) {
-  if (kind === 'private') {
-    return (
-      <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-        <rect x="3.5" y="10.5" width="17" height="10" rx="2.5" />
-        <path d="M8 10.5V7.6a4 4 0 0 1 8 0v2.9" />
-        <circle cx="12" cy="15.5" r="1.5" fill="currentColor" stroke="none" />
-      </svg>
-    )
-  }
+function Mark({ kind }: { kind?: 'private' }) {
+  if (kind !== 'private') return null
 
   return (
-    <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M14.8 2.4a9.8 9.8 0 1 0 6.8 12.2 7.8 7.8 0 0 1-9.8-9.9 9.9 9.9 0 0 1 3-2.3Z"
-      />
+    <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+      <rect x="3.5" y="10.5" width="17" height="10" rx="2.5" />
+      <path d="M8 10.5V7.6a4 4 0 0 1 8 0v2.9" />
+      <circle cx="12" cy="15.5" r="1.5" fill="currentColor" stroke="none" />
     </svg>
   )
 }

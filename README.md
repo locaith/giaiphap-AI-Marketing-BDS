@@ -60,6 +60,13 @@ Cả trang chỉ có **một** ngôn ngữ chuyển động: trồi lên + nét 
 - Gắn `data-reveal` cho một khối bất kỳ là nó hiện dần khi cuộn tới. Biến thể: `lift` (mặc định), `left`, `right`, `scale`, `line`.
 - Gắn `data-stagger="<biến thể>"` cho một container thì mọi thẻ con tự nhận `data-reveal` và nối nhau xuất hiện, không cần khai báo từng thẻ.
 - Toàn bộ tắt sạch khi người dùng bật "giảm chuyển động".
+- Trên điện thoại hiệu ứng bỏ phần làm mờ, chỉ giữ trồi lên và rõ dần: làm mờ từng khối khiến máy phải vẽ lại liên tục lúc cuộn.
+
+Ba điều giữ cho trang không nhúc nhích trên điện thoại — đừng bỏ:
+
+- `Stage` **ghi thẳng vào DOM**, không đi qua state của React. Gọi `setState` mỗi khung hình sẽ dựng lại toàn bộ cây phần tử bên trong và giật thấy rõ. Phần nghiêng theo con trỏ ở đầu trang cũng vậy.
+- Chiều cao khối cuộn tính bằng `100svh` (có `@supports` dự phòng `100vh`). Dùng `vh` thì thanh địa chỉ ẩn hiện sẽ làm cả khối co giãn và trang nhảy.
+- **Hút cuộn chỉ bật từ 1024px trở lên.** Hút cuộn cộng khung dính trên điện thoại làm trang bị kéo giật liên tục. `backdrop-filter` cũng tắt ở khoảng này.
 
 Ở đầu trang, câu dẫn chạy như đánh máy còn những cụm cần nhấn thì nổi lên dần từng từ — xem `src/components/KineticText.tsx`. Cụm nhấn không dùng `background-clip: text` được (chữ trong suốt thì không có gì để mờ dần), nên màu chuyển teal → đồng được tính cho từng từ trong JS.
 

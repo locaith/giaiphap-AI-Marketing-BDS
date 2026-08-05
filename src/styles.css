@@ -180,8 +180,9 @@ footer {
   height: 168%;
   display: flex;
   gap: var(--bd-gap);
-  transform: rotate(-13deg);
+  transform: rotate(-13deg) translateZ(0);
   transform-origin: center;
+  backface-visibility: hidden;
 }
 
 .backdrop-page {
@@ -266,7 +267,6 @@ footer {
   transform: perspective(1200px) translate3d(0, 34px, -40px) rotateX(6deg);
   transition: opacity 0.95s var(--ease), transform 1.05s var(--ease), filter 0.95s var(--ease);
   transition-delay: var(--rv-delay);
-  will-change: transform, opacity, filter;
 }
 
 [data-reveal='left'] {
@@ -291,7 +291,6 @@ footer {
   opacity: 1;
   filter: none;
   transform: none;
-  will-change: auto;
 }
 
 [data-reveal='line'][data-visible='true'] {
@@ -948,6 +947,29 @@ html.snap-stage {
 
 .stage {
   position: relative;
+  height: calc(var(--stage-screens, 6) * 100vh);
+}
+
+.stage-snap {
+  top: calc(var(--snap-index, 0) * 100vh);
+}
+
+/*
+  100vh trên điện thoại đổi theo lúc thanh địa chỉ ẩn hiện, làm cả khối cuộn
+  co giãn và trang nhúc nhích. 100svh là chiều cao nhỏ nhất, không đổi.
+*/
+@supports (height: 100svh) {
+  .stage {
+    height: calc(var(--stage-screens, 6) * 100svh);
+  }
+
+  .stage-snap {
+    top: calc(var(--snap-index, 0) * 100svh);
+  }
+
+  .stage-sticky {
+    height: 100svh;
+  }
 }
 
 .stage-snap {
@@ -957,6 +979,12 @@ html.snap-stage {
   height: 100vh;
   scroll-snap-align: start;
   pointer-events: none;
+}
+
+@supports (height: 100svh) {
+  .stage-snap {
+    height: 100svh;
+  }
 }
 
 .stage-sticky {
@@ -2196,5 +2224,72 @@ footer {
 
   .backdrop-track {
     animation: none !important;
+  }
+}
+
+/* ---------------------------------------------------------
+   Ổn định khi cuộn trên điện thoại
+   --------------------------------------------------------- */
+
+@media (max-width: 1023px) {
+  /*
+    Hút cuộn cộng với khung dính trên điện thoại làm trang bị kéo giật liên tục,
+    nên chỉ bật ở màn hình lớn.
+  */
+  html.snap-stage {
+    scroll-snap-type: none;
+  }
+
+  .stage-snap {
+    scroll-snap-align: none;
+  }
+
+  /* làm mờ nền theo thời gian thực rất tốn khi cuộn trên máy yếu */
+  .topbar[data-stuck='true'],
+  .ticker,
+  .section-pad,
+  .stage-section,
+  .workflow-section,
+  .cta-section,
+  .capability-grid,
+  footer {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .topbar[data-stuck='true'] {
+    background: rgba(252, 251, 248, 0.96);
+  }
+
+  /*
+    Làm mờ từng khối khi hiện dần khiến máy phải vẽ lại liên tục lúc cuộn.
+    Trên điện thoại chỉ giữ trồi lên và rõ dần.
+  */
+  [data-reveal] {
+    filter: none;
+    transform: translate3d(0, 24px, 0);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+  }
+
+  [data-reveal='left'] {
+    transform: translate3d(-22px, 8px, 0);
+  }
+
+  [data-reveal='right'] {
+    transform: translate3d(22px, 8px, 0);
+  }
+
+  [data-reveal='scale'] {
+    transform: translate3d(0, 20px, 0) scale(0.97);
+  }
+
+  /* bớt một cột ảnh nền cho nhẹ khi cuộn */
+  .backdrop-col:nth-child(n + 3) {
+    display: none;
+  }
+
+  /* chừa chỗ hai bên cho nút Zalo và nút trợ lý */
+  .stage-footnote {
+    padding: 0 80px;
   }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ArrowRight,
   ArrowUpRight,
@@ -57,7 +57,7 @@ const capabilities = [
     icon: <MessageSquare />,
     index: '05',
     title: 'Hỏi đáp dữ liệu',
-    text: 'Hỏi dữ liệu bằng tiếng Việt qua Claude, GPT, Gemini, Kimi hoặc ứng dụng nội bộ của doanh nghiệp.',
+    text: 'Hỏi dữ liệu bằng tiếng Việt qua Claude, GPT, Gemini hoặc ứng dụng nội bộ của doanh nghiệp.',
     meta: 'Hỏi → Phân tích → Hành động',
   },
   {
@@ -215,8 +215,8 @@ function App() {
                 Dùng đúng mô hình <span className="italic-accent">cho đúng công việc.</span>
               </h2>
               <p className="lead">
-                Claude cho phân tích sâu, GPT cho tác vụ tổng quát, Gemini cho hệ sinh thái Google, Kimi cho ngữ cảnh
-                dài và Seedance cho video. Kiến trúc không khoá doanh nghiệp vào một nhà cung cấp duy nhất.
+                Claude cho phân tích sâu, GPT cho tác vụ tổng quát, Gemini cho hệ sinh thái Google và Seedance cho
+                video. Kiến trúc không khoá doanh nghiệp vào một nhà cung cấp duy nhất.
               </p>
             </div>
             <div className="model-cloud">
@@ -421,18 +421,36 @@ function Header({
 }
 
 function Hero({ contactUrl }: { contactUrl: string }) {
-  const [tilt, setTilt] = useState({ x: 0, y: 0 })
+  const deviceRef = useRef<HTMLDivElement>(null)
 
+  // Ghi thẳng vào style thay vì qua state: nghiêng theo con trỏ mà dựng lại cây
+  // phần tử ở mỗi lần chuột nhích là thừa và gây giật.
   useEffect(() => {
     if (prefersReducedMotion() || !window.matchMedia('(pointer: fine)').matches) return
+
+    let frame = 0
+    let next = { x: 0, y: 0 }
+
     const onMove = (event: PointerEvent) => {
-      setTilt({
+      next = {
         x: (event.clientX / window.innerWidth - 0.5) * 2,
         y: (event.clientY / window.innerHeight - 0.5) * 2,
+      }
+      if (frame) return
+      frame = requestAnimationFrame(() => {
+        frame = 0
+        const node = deviceRef.current
+        if (!node) return
+        node.style.setProperty('--tx', String(next.x))
+        node.style.setProperty('--ty', String(next.y))
       })
     }
+
     window.addEventListener('pointermove', onMove, { passive: true })
-    return () => window.removeEventListener('pointermove', onMove)
+    return () => {
+      window.removeEventListener('pointermove', onMove)
+      if (frame) cancelAnimationFrame(frame)
+    }
   }, [])
 
   const hero = beats[0]
@@ -500,7 +518,7 @@ function Hero({ contactUrl }: { contactUrl: string }) {
         <div className="hero-chip hero-chip-b">
           Chi phí mỗi khách hàng · <b>cập nhật liên tục</b>
         </div>
-        <div className="hero-device" style={{ '--tx': tilt.x, '--ty': tilt.y } as CSSProperties}>
+        <div className="hero-device" ref={deviceRef}>
           <figure className="frame">
             <div className="frame-bar">
               <div className="frame-dots" aria-hidden="true">
