@@ -7,6 +7,8 @@ type StageProps = {
   beats: Beat[]
   eyebrow: string
   heading: string
+  /** Vế được nhấn ở cuối tiêu đề, in nghiêng và tô dải màu như các phần khác. */
+  headingAccent: string
   lead: string
   footnote: string
 }
@@ -22,7 +24,7 @@ type StageProps = {
  * Mọi thay đổi theo cuộn được ghi thẳng vào DOM chứ không qua state của React —
  * dựng lại cây phần tử mỗi khung hình sẽ giật trên điện thoại.
  */
-export function Stage({ beats, eyebrow, heading, lead, footnote }: StageProps) {
+export function Stage({ beats, eyebrow, heading, headingAccent, lead, footnote }: StageProps) {
   const reduced = useMemo(() => prefersReducedMotion(), [])
   const cards = useRef<Array<HTMLDivElement | null>>([])
   const copies = useRef<Array<HTMLDivElement | null>>([])
@@ -112,7 +114,13 @@ export function Stage({ beats, eyebrow, heading, lead, footnote }: StageProps) {
     return (
       <section className="stage-section" id="san-pham">
         <div className="container">
-          <StageIntro eyebrow={eyebrow} heading={heading} lead={lead} showCue={false} />
+          <StageIntro
+            eyebrow={eyebrow}
+            heading={heading}
+            headingAccent={headingAccent}
+            lead={lead}
+            showCue={false}
+          />
           <div className="stage-static">
             {beats.map((beat) => (
               <article className="stage-static-item" key={beat.id}>
@@ -134,7 +142,7 @@ export function Stage({ beats, eyebrow, heading, lead, footnote }: StageProps) {
   return (
     <section className="stage-section" id="san-pham">
       <div className="container">
-        <StageIntro eyebrow={eyebrow} heading={heading} lead={lead} showCue />
+        <StageIntro eyebrow={eyebrow} heading={heading} headingAccent={headingAccent} lead={lead} showCue />
       </div>
 
       <div className="stage" ref={ref} style={{ '--stage-screens': beats.length + 1 } as CSSProperties}>
@@ -201,18 +209,22 @@ export function Stage({ beats, eyebrow, heading, lead, footnote }: StageProps) {
 function StageIntro({
   eyebrow,
   heading,
+  headingAccent,
   lead,
   showCue,
 }: {
   eyebrow: string
   heading: string
+  headingAccent: string
   lead: string
   showCue: boolean
 }) {
   return (
     <div className="stage-intro" data-reveal>
       <div className="eyebrow eyebrow-accent">{eyebrow}</div>
-      <h2>{heading}</h2>
+      <h2>
+        {heading} <span className="italic-accent">{headingAccent}</span>
+      </h2>
       <p className="lead">{lead}</p>
       {showCue ? (
         <div className="scroll-cue">
