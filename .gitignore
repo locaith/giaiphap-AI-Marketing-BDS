@@ -8,3 +8,4 @@ dist
 
 # tài liệu triển khai nội bộ, không đưa lên repo công khai
 *.pdf
+_*.mjs
