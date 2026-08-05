@@ -95,21 +95,23 @@ for (const file of fs.readdirSync(OUT)) fs.unlinkSync(path.join(OUT, file))
 const credits = []
 let index = 0
 
-/** Kéo mức sáng trung bình của mọi ảnh về cùng một tông sáng, dịu. */
+/**
+ * Đưa mọi ảnh về cùng một tông: đủ sáng để chữ đè lên vẫn đọc được, nhưng vẫn
+ * giữ màu và chi tiết công trình chứ không bị bệt trắng.
+ */
 async function toTile(buffer, outPath) {
   const base = sharp(buffer)
     .resize({ width: TILE_W, height: TILE_H, fit: 'cover', position: 'attention' })
-    .modulate({ saturation: 0.5 })
+    .modulate({ saturation: 0.86 })
 
   const { channels } = await base.clone().stats()
   const mean = channels.slice(0, 3).reduce((sum, c) => sum + c.mean, 0) / 3
-  const gain = Math.min(2.6, Math.max(1, 178 / Math.max(mean, 1)))
+  const gain = Math.min(1.9, Math.max(1, 150 / Math.max(mean, 1)))
 
-  const lifted = await base.linear(gain, 18).toColourspace('srgb').png().toBuffer()
-
-  await sharp(lifted)
-    // phủ thêm một lớp trắng mỏng để ảnh nào cũng đủ nhạt khi chạy nền
-    .composite([{ input: { create: { width: TILE_W, height: TILE_H, channels: 4, background: { r: 255, g: 255, b: 255, alpha: 0.16 } } } }])
+  await base
+    .linear(gain, 10)
+    .sharpen({ sigma: 0.7 })
+    .toColourspace('srgb')
     .webp({ quality: 76, effort: 6 })
     .toFile(outPath)
 

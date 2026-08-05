@@ -1,37 +1,37 @@
 /* =========================================================
-   Locaith REMI — AI Marketing OS for Real Estate
-   Light editorial system: ivory paper, ink type, indigo accent.
+   Locaith — Giải pháp AI Marketing cho Bất động sản
+   Hệ màu: giấy ngà ấm, mực navy, điểm nhấn teal chuyển đồng.
    ========================================================= */
 
 :root {
-  /* paper */
-  --paper: #ffffff;
-  --paper-2: #f8f8fb;
-  --paper-3: #f1f2f7;
-  --paper-warm: #faf9f7;
+  /* giấy ngà ấm */
+  --paper: #fcfbf8;
+  --paper-2: #f5f3ed;
+  --paper-3: #eae6dc;
+  --paper-warm: #faf7f0;
 
-  /* ink */
-  --ink: #0e0e14;
-  --ink-2: #33333f;
-  --ink-3: #61616f;
-  --ink-4: #8b8b99;
+  /* mực navy */
+  --ink: #0d2438;
+  --ink-2: #2b4459;
+  --ink-3: #485c6e;
+  --ink-4: #7b8d9b;
 
-  /* accent */
-  --accent: #4f46e5;
-  --accent-2: #7c3aed;
-  --accent-3: #c026d3;
-  --accent-soft: rgba(79, 70, 229, 0.08);
+  /* điểm nhấn: xanh navy - teal, chuyển sang đồng */
+  --accent: #0f5568;
+  --accent-2: #1a7d90;
+  --accent-3: #a3762f;
+  --accent-soft: rgba(15, 85, 104, 0.08);
 
   /* structure */
-  --line: rgba(14, 14, 32, 0.08);
-  --line-strong: rgba(14, 14, 32, 0.14);
+  --line: rgba(13, 36, 56, 0.1);
+  --line-strong: rgba(13, 36, 56, 0.16);
   --radius-s: 12px;
   --radius: 18px;
   --radius-l: 26px;
 
-  --shadow-s: 0 1px 2px rgba(14, 14, 40, 0.04), 0 4px 14px rgba(14, 14, 40, 0.04);
-  --shadow-m: 0 2px 6px rgba(14, 14, 40, 0.05), 0 18px 48px rgba(14, 14, 40, 0.08);
-  --shadow-l: 0 4px 10px rgba(14, 14, 40, 0.05), 0 40px 90px rgba(14, 14, 40, 0.12);
+  --shadow-s: 0 1px 2px rgba(13, 36, 56, 0.05), 0 4px 14px rgba(13, 36, 56, 0.05);
+  --shadow-m: 0 2px 6px rgba(13, 36, 56, 0.06), 0 18px 48px rgba(13, 36, 56, 0.09);
+  --shadow-l: 0 4px 10px rgba(13, 36, 56, 0.06), 0 40px 90px rgba(13, 36, 56, 0.14);
 
   --container: 1180px;
   --pad: clamp(20px, 5vw, 40px);
@@ -115,7 +115,7 @@ p {
 }
 
 ::selection {
-  background: rgba(79, 70, 229, 0.16);
+  background: rgba(15, 85, 104, 0.18);
 }
 
 :focus-visible {
@@ -133,9 +133,8 @@ p {
 
 .section-pad {
   padding: clamp(84px, 11vw, 150px) 0;
-  /* lớp trắng mỏng giữ chữ luôn đọc được trên nền ảnh dự án */
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(2px);
+  /* lớp giấy giữ chữ luôn đọc được trên nền ảnh dự án */
+  background: rgba(252, 251, 248, 0.74);
 }
 
 /* chừa chỗ cho thanh điều hướng cố định khi nhảy tới neo */
@@ -188,11 +187,11 @@ footer {
 .backdrop-page {
   position: fixed;
   z-index: 0;
-  opacity: 0.34;
+  opacity: 0.62;
 }
 
 .backdrop-hero {
-  opacity: 0.5;
+  opacity: 0.82;
   -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, #000 30%, rgba(0, 0, 0, 0.2) 78%, transparent 100%);
   mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, #000 30%, rgba(0, 0, 0, 0.2) 78%, transparent 100%);
 }
@@ -218,7 +217,7 @@ footer {
   width: 100%;
   height: auto;
   border-radius: 14px;
-  border: 1px solid rgba(14, 14, 32, 0.06);
+  border: 1px solid rgba(13, 36, 56, 0.07);
 }
 
 @keyframes backdrop-drift {
@@ -239,6 +238,15 @@ footer {
 @media (max-width: 700px) {
   .backdrop-col:nth-child(n + 4) {
     display: none;
+  }
+
+  /* màn hẹp thì mỗi ô ảnh to hơn hẳn, phải hạ xuống cho chữ còn đọc được */
+  .backdrop-page {
+    opacity: 0.4;
+  }
+
+  .backdrop-hero {
+    opacity: 0.52;
   }
 }
 
@@ -329,12 +337,12 @@ footer {
 .button-primary {
   background: var(--ink);
   color: #fff;
-  box-shadow: 0 1px 2px rgba(14, 14, 40, 0.16), 0 12px 30px rgba(14, 14, 40, 0.16);
+  box-shadow: 0 1px 2px rgba(13, 36, 56, 0.18), 0 12px 30px rgba(13, 36, 56, 0.18);
 }
 
 .button-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 2px 4px rgba(14, 14, 40, 0.18), 0 20px 44px rgba(14, 14, 40, 0.22);
+  box-shadow: 0 2px 4px rgba(13, 36, 56, 0.2), 0 20px 44px rgba(13, 36, 56, 0.24);
 }
 
 .button-primary:hover svg {
@@ -361,7 +369,7 @@ footer {
   font-weight: 500;
   color: var(--accent);
   padding-bottom: 3px;
-  border-bottom: 1px solid rgba(79, 70, 229, 0.25);
+  border-bottom: 1px solid rgba(15, 85, 104, 0.28);
   transition: border-color 0.3s ease, gap 0.3s var(--ease);
 }
 
@@ -499,10 +507,10 @@ footer {
   inset: -20% -10% auto -10%;
   height: 130%;
   pointer-events: none;
-  background: radial-gradient(58% 52% at 50% 40%, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.3) 68%, transparent 100%),
-    radial-gradient(52% 44% at 18% 12%, rgba(79, 70, 229, 0.13), transparent 68%),
-    radial-gradient(46% 40% at 88% 6%, rgba(192, 38, 211, 0.09), transparent 66%),
-    radial-gradient(60% 50% at 62% 88%, rgba(124, 58, 237, 0.07), transparent 70%);
+  background: radial-gradient(58% 52% at 50% 40%, rgba(252, 251, 248, 0.8), rgba(252, 251, 248, 0.22) 68%, transparent 100%),
+    radial-gradient(52% 44% at 18% 12%, rgba(15, 85, 104, 0.14), transparent 68%),
+    radial-gradient(46% 40% at 88% 6%, rgba(180, 136, 74, 0.12), transparent 66%),
+    radial-gradient(60% 50% at 62% 88%, rgba(26, 125, 144, 0.08), transparent 70%);
   filter: blur(6px);
 }
 
@@ -556,15 +564,15 @@ footer {
   align-items: center;
   gap: 9px;
   font-size: 0.82rem;
-  color: var(--ink-4);
+  color: var(--ink-3);
 }
 
 .live-dot {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #16a34a;
-  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14);
+  background: #1f7a5c;
+  box-shadow: 0 0 0 4px rgba(31, 122, 92, 0.16);
 }
 
 /* title-card entrance */
@@ -676,7 +684,7 @@ footer {
 .frame {
   position: relative;
   border-radius: var(--radius-l);
-  background: #fff;
+  background: var(--paper);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-l);
   overflow: hidden;
@@ -688,7 +696,7 @@ footer {
   gap: 12px;
   padding: 12px 16px;
   border-bottom: 1px solid var(--line);
-  background: linear-gradient(180deg, #fcfcfe, #f6f6fa);
+  background: linear-gradient(180deg, #fdfcf9, #f3f1ea);
 }
 
 .frame-dots {
@@ -743,8 +751,8 @@ footer {
 .ticker {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: rgba(248, 248, 251, 0.82);
-  backdrop-filter: blur(2px);
+  background: rgba(245, 243, 237, 0.8);
+  backdrop-filter: blur(1px);
   overflow: hidden;
 }
 
@@ -831,10 +839,10 @@ html.snap-stage {
   position: relative;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.72) 0%,
-    rgba(248, 248, 251, 0.88) 10%,
-    rgba(248, 248, 251, 0.88) 90%,
-    rgba(255, 255, 255, 0.72) 100%
+    rgba(252, 251, 248, 0.74) 0%,
+    rgba(245, 243, 237, 0.88) 10%,
+    rgba(245, 243, 237, 0.88) 90%,
+    rgba(252, 251, 248, 0.74) 100%
   );
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
@@ -867,8 +875,8 @@ html.snap-stage {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(46% 44% at 78% 44%, rgba(79, 70, 229, 0.1), transparent 70%),
-    radial-gradient(40% 40% at 12% 66%, rgba(192, 38, 211, 0.06), transparent 70%);
+  background: radial-gradient(46% 44% at 78% 44%, rgba(15, 85, 104, 0.11), transparent 70%),
+    radial-gradient(40% 40% at 12% 66%, rgba(180, 136, 74, 0.08), transparent 70%);
 }
 
 .stage-grid {
@@ -953,7 +961,7 @@ html.snap-stage {
   height: 100%;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 6px 14px rgba(14, 14, 40, 0.06), 0 50px 110px rgba(14, 14, 40, 0.16);
+  box-shadow: 0 6px 14px rgba(13, 36, 56, 0.07), 0 50px 110px rgba(13, 36, 56, 0.18);
 }
 
 .stage-card .frame-shot {
@@ -979,7 +987,7 @@ html.snap-stage {
   width: 2px;
   height: 26px;
   border-radius: 2px;
-  background: rgba(14, 14, 32, 0.1);
+  background: rgba(13, 36, 56, 0.12);
   position: relative;
   overflow: hidden;
 }
@@ -1104,7 +1112,7 @@ html.snap-stage {
 }
 
 .capability-card {
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(252, 251, 248, 0.95);
   padding: clamp(26px, 3vw, 36px);
   display: flex;
   flex-direction: column;
@@ -1131,7 +1139,7 @@ html.snap-stage {
   place-items: center;
   background: var(--accent-soft);
   color: var(--accent);
-  border: 1px solid rgba(79, 70, 229, 0.14);
+  border: 1px solid rgba(15, 85, 104, 0.16);
 }
 
 .icon-shell svg {
@@ -1164,8 +1172,8 @@ html.snap-stage {
    --------------------------------------------------------- */
 
 .workflow-section {
-  background: rgba(248, 248, 251, 0.8);
-  backdrop-filter: blur(2px);
+  background: rgba(245, 243, 237, 0.78);
+  backdrop-filter: blur(1px);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
@@ -1357,7 +1365,7 @@ html.snap-stage {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #16a34a;
+  color: #1f7a5c;
 }
 
 .status-dot::before {
@@ -1434,8 +1442,8 @@ html.snap-stage {
    --------------------------------------------------------- */
 
 .cta-section {
-  background: rgba(248, 248, 251, 0.8);
-  backdrop-filter: blur(2px);
+  background: rgba(245, 243, 237, 0.78);
+  backdrop-filter: blur(1px);
   border-top: 1px solid var(--line);
 }
 
@@ -1497,8 +1505,8 @@ html.snap-stage {
 footer {
   padding: 42px 0;
   border-top: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.84);
-  backdrop-filter: blur(2px);
+  background: rgba(252, 251, 248, 0.86);
+  backdrop-filter: blur(1px);
 }
 
 .footer-row {
