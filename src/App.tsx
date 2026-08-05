@@ -14,6 +14,7 @@ import {
   X,
 } from './components/Icons'
 import { Backdrop } from './components/Backdrop'
+import { CapabilityOrbit, type Capability } from './components/CapabilityOrbit'
 import { ChatConsult } from './components/ChatConsult'
 import { FloatingWidgets } from './components/FloatingWidgets'
 import { KineticText, type Segment } from './components/KineticText'
@@ -24,11 +25,12 @@ import { photoCredits } from './credits'
 import { siteConfig } from './config'
 import { prefersReducedMotion, useRevealOnScroll, useScrolledPast } from './lib/useStage'
 
-const capabilities = [
+const capabilities: Capability[] = [
   {
     icon: <Gauge />,
     index: '01',
     title: 'Quản Trị Hiệu Quả Quảng Cáo & ROI',
+    short: 'Quảng cáo & ROI',
     text: 'Đo hiệu quả quảng cáo, chiến dịch, khách hàng và chi phí theo từng dự án, kênh hoặc đội kinh doanh.',
     meta: 'Quảng cáo → Khách hàng → Quyết định',
   },
@@ -36,6 +38,7 @@ const capabilities = [
     icon: <Sparkles />,
     index: '02',
     title: 'Trung Tâm Đóng Gói Chiến Dịch AI',
+    short: 'Chiến dịch AI',
     text: 'Từ nghiên cứu, chiến lược đến nội dung, hình ảnh và lịch triển khai trên cùng một luồng làm việc.',
     meta: 'Nghiên cứu → Chiến lược → Nội dung',
   },
@@ -43,6 +46,7 @@ const capabilities = [
     icon: <Film />,
     index: '03',
     title: 'Nhà Máy Sản Xuất Video BĐS Hàng Loạt',
+    short: 'Video hàng loạt',
     text: 'Tạo video từ chữ hoặc ảnh, kèm lồng tiếng, phụ đề và nhiều tỷ lệ khung hình cho mạng xã hội.',
     meta: 'Chữ hoặc ảnh → Video',
   },
@@ -50,6 +54,7 @@ const capabilities = [
     icon: <Database />,
     index: '04',
     title: 'Phân tích thời gian thực',
+    short: 'Thời gian thực',
     text: 'Gom dữ liệu đang phân mảnh thành bảng điều khiển và báo cáo quản trị cập nhật liên tục.',
     meta: 'Một nguồn số liệu duy nhất',
   },
@@ -57,6 +62,7 @@ const capabilities = [
     icon: <MessageSquare />,
     index: '05',
     title: 'Hỏi đáp dữ liệu',
+    short: 'Hỏi đáp dữ liệu',
     text: 'Hỏi dữ liệu bằng tiếng Việt qua Claude, GPT, Gemini hoặc ứng dụng nội bộ của doanh nghiệp.',
     meta: 'Hỏi → Phân tích → Hành động',
   },
@@ -64,6 +70,7 @@ const capabilities = [
     icon: <Layers />,
     index: '06',
     title: 'Quản Trị Thương Hiệu & Kho Tài Nguyên Số',
+    short: 'Thương hiệu & Kho số',
     text: 'Quản trị bộ nhận diện, mạng xã hội và kho tài sản nội dung để giữ thông điệp nhất quán.',
     meta: 'Nhất quán ở mọi quy mô',
   },
@@ -161,19 +168,7 @@ function App() {
               </p>
             </div>
 
-            <div className="capability-grid" data-stagger="lift">
-              {capabilities.map((item) => (
-                <article className="capability-card" key={item.title}>
-                  <div className="card-topline">
-                    <div className="icon-shell">{item.icon}</div>
-                    <span>{item.index}</span>
-                  </div>
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                  <div className="card-meta">{item.meta}</div>
-                </article>
-              ))}
-            </div>
+            <CapabilityOrbit items={capabilities} />
           </div>
         </section>
 
@@ -239,15 +234,8 @@ function App() {
             <div className="case-panel" data-reveal="left">
               <div className="eyebrow">Bài toán bất động sản thực tế</div>
               <h2>
-                Sinh ra từ bài toán vận hành thật
-                {siteConfig.caseStudyPublic ? (
-                  <>
-                    {' '}
-                    cùng <span className="italic-accent">{siteConfig.caseStudyName}</span>.
-                  </>
-                ) : (
-                  '.'
-                )}
+                Sinh ra từ bài toán vận hành thật{' '}
+                <span className="italic-accent">của doanh nghiệp bất động sản.</span>
               </h2>
               <p className="lead">
                 Từ nhu cầu đo hiệu quả quảng cáo, hệ thống được mở rộng thành lớp AI cho chiến dịch, báo cáo, phân tích

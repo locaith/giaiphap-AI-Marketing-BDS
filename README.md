@@ -36,7 +36,7 @@ npm run preview
 | `src/components/FloatingWidgets.tsx` | Nút Zalo OA và nút trợ lý nổi ở chân màn hình |
 | `src/lib/useStage.ts` | Hook đo tiến độ cuộn và tính chuyển động giả 3D |
 | `src/content.ts` | Nội dung từng nhịp cuộn — sửa chữ ở đây |
-| `src/config.ts` | Tên miền, email nhận demo, tên case study |
+| `src/config.ts` | Tên miền, email liên hệ, Zalo OA, mã trợ lý hội thoại |
 | `src/credits.ts` | Ghi nguồn ảnh nền (sinh tự động) |
 | `public/exhibits/` | Ảnh màn hình sản phẩm |
 | `public/projects/` | Ảnh nền dự án bất động sản |

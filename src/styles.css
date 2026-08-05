@@ -1253,41 +1253,178 @@ html.snap-stage {
   margin-top: 18px;
 }
 
-.capability-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1px;
-  background: var(--line);
-  backdrop-filter: blur(3px);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-l);
-  overflow: hidden;
+/* ---------------------------------------------------------
+   Sáu năng lực xoay quanh một lõi
+   --------------------------------------------------------- */
+
+.orbit {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+  aspect-ratio: 1;
 }
 
-.capability-card {
-  background: rgba(252, 251, 248, 0.95);
-  padding: clamp(26px, 3vw, 36px);
+.orbit-lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.orbit-ring {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.orbit-line {
+  stroke: var(--line);
+  stroke-width: 1;
+  transition: stroke 0.35s ease, stroke-width 0.35s ease;
+}
+
+.orbit-line.is-active {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+/* lõi giữ tên đầy đủ và mô tả của nhánh đang chọn */
+.orbit-core {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 52%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: linear-gradient(150deg, #ffffff 0%, var(--paper-2) 100%);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-l);
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  min-height: 246px;
-  transition: background 0.4s ease;
-}
-
-.capability-card:hover {
-  background: var(--paper-warm);
-}
-
-.card-topline {
-  display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 8px;
+  padding: 12% 13%;
+  text-align: center;
 }
 
-.icon-shell {
-  width: 40px;
-  height: 40px;
-  border-radius: 11px;
+.orbit-core-tag {
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.orbit-core h3 {
+  font-size: clamp(0.98rem, 1.35vw, 1.14rem);
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+.orbit-core p {
+  font-size: clamp(0.76rem, 1vw, 0.85rem);
+  line-height: 1.5;
+  color: var(--ink-3);
+}
+
+.orbit-core-meta {
+  margin-top: 2px;
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+/* nhánh: biểu tượng và nhãn ngắn */
+.orbit-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 15px 9px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.97);
+  box-shadow: var(--shadow-s);
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: border-color 0.3s ease, box-shadow 0.35s var(--ease), transform 0.35s var(--ease);
+}
+
+.orbit-node:hover,
+.orbit-node.is-active {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-m);
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+.orbit-node-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.orbit-node-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.orbit-node-text {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: var(--ink-2);
+}
+
+.orbit-node-text em {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-size: 0.86rem;
+  color: var(--ink-4);
+}
+
+.orbit-node.is-active .orbit-node-text {
+  color: var(--ink);
+}
+
+/* bản xếp dọc cho màn hẹp */
+.orbit-list {
+  display: none;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.orbit-list li {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 14px;
+  padding: 20px 0;
+  border-top: 1px solid var(--line);
+}
+
+.orbit-list li:first-child {
+  border-top: 0;
+}
+
+.orbit-list-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   display: grid;
   place-items: center;
   background: var(--accent-soft);
@@ -1295,29 +1432,44 @@ html.snap-stage {
   border: 1px solid rgba(15, 85, 104, 0.16);
 }
 
-.icon-shell svg {
+.orbit-list-icon svg {
   width: 19px;
   height: 19px;
 }
 
-.card-topline > span {
+.orbit-list-index {
   font-family: var(--font-display);
-  font-size: 1.25rem;
-  color: var(--ink-4);
+  font-size: 0.9rem;
+  color: var(--accent);
 }
 
-.capability-card p {
-  font-size: 0.94rem;
-  flex: 1;
+.orbit-list h3 {
+  margin-top: 2px;
+  font-size: 1.02rem;
 }
 
-.card-meta {
-  font-size: 0.7rem;
+.orbit-list p {
+  margin-top: 6px;
+  font-size: 0.92rem;
+}
+
+.orbit-list-meta {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.68rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ink-4);
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
+}
+
+@media (max-width: 900px) {
+  .orbit {
+    display: none;
+  }
+
+  .orbit-list {
+    display: block;
+  }
 }
 
 /* ---------------------------------------------------------
@@ -2155,10 +2307,6 @@ footer {
     align-items: start;
   }
 
-  .capability-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .footer-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2173,10 +2321,6 @@ footer {
 }
 
 @media (max-width: 640px) {
-  .capability-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
   .chat-fields {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -2278,7 +2422,6 @@ footer {
   .stage-section,
   .workflow-section,
   .cta-section,
-  .capability-grid,
   footer {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;

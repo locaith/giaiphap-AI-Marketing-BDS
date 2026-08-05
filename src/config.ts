@@ -4,8 +4,6 @@ export const siteConfig = {
   homeUrl: 'https://locaith.com',
   landingUrl: 'https://ai-bds.locaith.com',
   contactEmail: 'locaithsolution@locaith.com',
-  caseStudyName: 'Reti Home',
-  caseStudyPublic: true,
 
   /** Zalo Official Account của Locaith AI. */
   zaloOaId: '1864346228925847963',
