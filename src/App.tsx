@@ -15,8 +15,8 @@ import {
 } from './components/Icons'
 import { Backdrop } from './components/Backdrop'
 import { CapabilityOrbit, type Capability } from './components/CapabilityOrbit'
-import { ChatConsult } from './components/ChatConsult'
 import { FloatingWidgets } from './components/FloatingWidgets'
+import { OfficeSlideshow } from './components/OfficeSlideshow'
 import { KineticText, type Segment } from './components/KineticText'
 import { ModelGrid } from './components/ModelGrid'
 import { Stage } from './components/Stage'
@@ -229,24 +229,24 @@ function App() {
           </div>
         </section>
 
-        <section className="section-pad" id="tu-van">
+        <section className="section-pad" id="dat-lich">
           <div className="container case-grid">
             <div className="case-panel" data-reveal="left">
-              <div className="eyebrow">Bài toán bất động sản thực tế</div>
+              <div className="eyebrow">Hẹn gặp xem demo</div>
               <h2>
-                Sinh ra từ bài toán vận hành thật{' '}
-                <span className="italic-accent">của doanh nghiệp bất động sản.</span>
+                Gặp trực tiếp một buổi,{' '}
+                <span className="italic-accent">xem hệ thống chạy thật.</span>
               </h2>
               <p className="lead">
-                Từ nhu cầu đo hiệu quả quảng cáo, hệ thống được mở rộng thành lớp AI cho chiến dịch, báo cáo, phân tích
-                dữ liệu, hỏi đáp và sản xuất nội dung đa định dạng.
+                Locaith mời anh chị tới văn phòng tại Trung tâm Đổi mới Sáng tạo Quốc gia — số 7 Tôn Thất Thuyết, Hà
+                Nội — hoặc gặp trực tuyến nếu ở xa. Một buổi khoảng 45 phút là đủ để thấy giải pháp vận hành ra sao.
               </p>
               <div className="case-checks" data-stagger="left">
                 {[
-                  'Tối ưu chiến dịch tự động',
-                  'Phân tích dữ liệu thời gian thực',
-                  'Bảng điều khiển quản trị vận hành bằng AI',
-                  'Trợ lý dữ liệu trò chuyện bằng tiếng Việt',
+                  'Xem hệ thống chạy trực tiếp, không phải bản trình chiếu',
+                  'Dựng thử trên chính dữ liệu quảng cáo của doanh nghiệp',
+                  'Ước lượng phạm vi, thời gian và chi phí triển khai',
+                  'Trao đổi thẳng với đội trực tiếp làm sản phẩm',
                 ].map((item) => (
                   <div key={item}>
                     <Check />
@@ -254,8 +254,16 @@ function App() {
                   </div>
                 ))}
               </div>
+              <div className="case-actions">
+                <a className="button button-primary" href={contactUrl} target="_blank" rel="noreferrer noopener">
+                  Đặt lịch gặp qua Zalo <ArrowRight />
+                </a>
+                <a className="button button-ghost" href={`mailto:${siteConfig.contactEmail}`}>
+                  Gửi email <ArrowUpRight />
+                </a>
+              </div>
             </div>
-            <ChatConsult />
+            <OfficeSlideshow />
           </div>
         </section>
 
@@ -392,8 +400,8 @@ function Header({
           <a href="#nen-tang" onClick={close}>
             Nền tảng
           </a>
-          <a href="#tu-van" onClick={close}>
-            Tư vấn
+          <a href="#dat-lich" onClick={close}>
+            Đặt lịch
           </a>
           <a className="nav-cta" href={contactUrl} target="_blank" rel="noreferrer noopener" onClick={close}>
             Liên hệ ngay <ArrowUpRight />
@@ -490,7 +498,7 @@ function Hero({ contactUrl }: { contactUrl: string }) {
           segments={HERO_LEAD}
         />
         <div className="hero-actions">
-          <a className="button button-primary" href="#tu-van">
+          <a className="button button-primary" href="#san-pham">
             Xem sản phẩm <ArrowRight />
           </a>
           <a className="button button-ghost" href={contactUrl} target="_blank" rel="noreferrer noopener">

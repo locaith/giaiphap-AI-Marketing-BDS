@@ -32,7 +32,7 @@ npm run preview
 | `src/components/Stage.tsx` | Phần cuộn khoá kể chuyện (scrollytelling) |
 | `src/components/Backdrop.tsx` | Nền lưới ảnh dự án đặt chéo, trôi dọc |
 | `src/components/KineticText.tsx` | Chữ chạy ở đầu trang: gõ máy + nổi lên dần |
-| `src/components/ChatConsult.tsx` | Form thu thập thông tin + khung trò chuyện nhúng |
+| `src/components/OfficeSlideshow.tsx` | Ảnh nơi làm việc, đổi qua lại |
 | `src/components/FloatingWidgets.tsx` | Nút Zalo OA và nút trợ lý nổi ở chân màn hình |
 | `src/lib/useStage.ts` | Hook đo tiến độ cuộn và tính chuyển động giả 3D |
 | `src/content.ts` | Nội dung từng nhịp cuộn — sửa chữ ở đây |
@@ -81,9 +81,7 @@ Hai điều bắt buộc khi sửa phần này:
 - **Khung chat Zalo** mở ngay trong trang bằng SDK chính thức, neo góc trái dưới; nút trợ lý Phê Nâu ở góc phải dưới — đặt hai bên để không đè nhau. Biểu tượng nút trợ lý được thay bằng logo Locaith sau khi script bên ngoài dựng xong nút (dùng `MutationObserver` vì script nạp không đồng bộ).
 - Div `.zalo-chat-widget` **phải tạo bằng DOM thuần**, không render qua React: React gắn thuộc tính nội bộ lên node, SDK Zalo đọc node đó rồi `JSON.stringify` và văng lỗi vòng lặp liên tục. SDK chỉ chạy trên domain đã khai báo trong Zalo Official Account Manager — nếu không dựng được widget, một nút dự phòng sẽ hiện ra và mở trang OA.
 - Hai trợ lý Phê Nâu khác nhau: `phenauWidgetAgentId` cho nút nổi, `phenauChatAgentId` cho khung trò chuyện thử trong phần Tư vấn.
-- Phần **Tư vấn** hỏi tên, công ty, số điện thoại, email trước rồi mới mở khung trò chuyện. Thông tin lưu ở `localStorage` nên lần sau vào không phải điền lại.
-
-> **Còn phụ thuộc phía Phê Nâu:** thông tin khách để lại được gửi sang khung chat theo hai đường — tham số trên địa chỉ khung (`name`, `company`, `phone`, `email`) và `postMessage` kiểu `phechat:context`. Bản `embed.js` hiện tại chỉ lắng nghe `closeChat`, chưa có API nhận ngữ cảnh, nên trợ lý **chưa chắc đọc được**. Cần phía Phê Nâu bổ sung một trong hai đường trên thì phần này mới chạy trọn vẹn.
+- Phần **Đặt lịch** mời khách hẹn gặp xem demo tại NIC hoặc trực tuyến, kèm hai ảnh nơi làm việc đổi qua lại. Không thu thập thông tin tại chỗ — mọi lối liên hệ đều dẫn về Zalo hoặc email.
 
 ## Ảnh nền dự án
 
