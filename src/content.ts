@@ -47,7 +47,7 @@ export const beats: Beat[] = [
     id: 'bao-cao',
     tag: 'Báo cáo',
     index: '03',
-    title: 'Báo cáo ngày, tuần, tháng, quý. Tải Excel là xong.',
+    title: 'Tải báo cáo ngay khi có dữ liệu.',
     text: 'Cùng một bộ số cho mọi kỳ, tải về nhập thẳng vào phần mềm quản lý khách hàng, không phải ghép tay từng file.',
     image: '/exhibits/reports.webp',
     imageSmall: '/exhibits/reports@720.webp',

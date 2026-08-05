@@ -141,9 +141,9 @@ function App() {
         <Stage
           beats={beats}
           eyebrow="Cuộn để xem"
-          heading="Không phải phần mềm dùng chung."
-          headingAccent="May đo cho từng doanh nghiệp."
-          lead="Locaith lấy dữ liệu ngay từ công cụ bạn đang chạy — không bắt đổi quy trình, không bắt nhập lại từ đầu. Năm màn hình dưới đây là một triển khai thật; mỗi lần cuộn là một câu, đọc trọn rồi hãy cuộn tiếp."
+          heading="Giao diện phân tích trực quan,"
+          headingAccent="từ dữ liệu thô đến khuyến nghị."
+          lead="Năm màn hình đang chạy thật: khách hàng từ quảng cáo, hiệu quả từng chiến dịch, báo cáo theo kỳ, hỏi đáp bằng tiếng Việt và khuyến nghị ngân sách. Mỗi lần cuộn là một màn — đọc trọn rồi hãy cuộn tiếp."
           footnote="Ảnh chụp từ một triển khai thật. Các con số hiển thị là dữ liệu minh hoạ."
         />
 
