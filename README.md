@@ -40,6 +40,7 @@ npm run preview
 | `src/credits.ts` | Ghi nguồn ảnh nền (sinh tự động) |
 | `public/exhibits/` | Ảnh màn hình sản phẩm |
 | `public/projects/` | Ảnh nền dự án bất động sản |
+| `public/logos/` | Logo nhà cung cấp mô hình |
 | `tools/` | Script sinh ảnh |
 
 ## Phần cuộn khoá (scrollytelling)
@@ -93,6 +94,10 @@ node tools/fetch-project-photos.mjs
 **Dùng ảnh dự án của chính doanh nghiệp:** bỏ file vào `public/projects/` theo tên `tile-01.webp` … `tile-NN.webp` (tỷ lệ 4:5, tông sáng), rồi cập nhật `src/credits.ts` cho khớp. Cách này chuẩn nhất vì hiện đúng dự án đang mở bán và không vướng bản quyền.
 
 Chỉnh độ đậm nhạt của nền: `.backdrop-page` và `.backdrop-hero` trong `src/styles.css`.
+
+## Logo nhà cung cấp mô hình
+
+Lấy về bằng `node tools/fetch-model-logos.mjs` (Wikimedia Commons, giấy phép cho phép dùng lại). Ô chứa logo có chiều cao cố định và mỗi ảnh khai báo sẵn `width`/`height` theo đúng tỷ lệ gốc, nên ảnh tải trễ mà trang vẫn không nhảy dòng; ảnh chỉ hiện lên sau khi tải xong. Kimi và mô hình nội bộ dùng dấu hiệu tự vẽ vì không có logo dùng lại được.
 
 ## Font tiếng Việt
 

@@ -17,6 +17,7 @@ import { Backdrop } from './components/Backdrop'
 import { ChatConsult } from './components/ChatConsult'
 import { FloatingWidgets } from './components/FloatingWidgets'
 import { KineticText, type Segment } from './components/KineticText'
+import { ModelGrid } from './components/ModelGrid'
 import { Stage } from './components/Stage'
 import { beats, models, pains, signals } from './content'
 import { photoCredits } from './credits'
@@ -218,12 +219,8 @@ function App() {
                 dài và Seedance cho video. Kiến trúc không khoá doanh nghiệp vào một nhà cung cấp duy nhất.
               </p>
             </div>
-            <div className="model-cloud" aria-label="Các mô hình có thể tích hợp" data-stagger="scale">
-              {models.map((model) => (
-                <div className="model-pill" key={model}>
-                  {model}
-                </div>
-              ))}
+            <div className="model-cloud">
+              <ModelGrid items={models} />
               <div className="model-core">
                 <span>LOCAITH</span>
                 <strong>ĐIỀU PHỐI MÔ HÌNH</strong>

@@ -1350,29 +1350,70 @@ html.snap-stage {
 }
 
 .model-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  gap: 14px;
+  align-content: center;
 }
 
-.model-pill {
-  padding: 10px 18px;
-  border-radius: 999px;
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.model-item {
+  display: grid;
+  align-content: start;
+  gap: 3px;
+  padding: 18px 16px;
+  border-radius: var(--radius);
   border: 1px solid var(--line-strong);
   background: #fff;
-  font-size: 0.86rem;
-  font-weight: 500;
-  color: var(--ink-2);
   box-shadow: var(--shadow-s);
-  transition: transform 0.4s var(--ease), border-color 0.3s ease, color 0.3s ease;
+  transition: transform 0.4s var(--ease), border-color 0.3s ease, box-shadow 0.4s var(--ease);
 }
 
-.model-pill:hover {
+.model-item:hover {
   transform: translateY(-3px);
   border-color: var(--accent);
+  box-shadow: var(--shadow-m);
+}
+
+/* ô logo cao cố định nên ảnh tải xong không làm nhảy dòng */
+.model-logo {
+  height: 34px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
   color: var(--accent);
+}
+
+.model-logo-img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: left center;
+  opacity: 0;
+  transform: scale(0.94);
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+
+.model-logo-img.is-loaded {
+  opacity: 1;
+  transform: none;
+}
+
+.model-item h3 {
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.model-item p {
+  font-size: 0.78rem;
+  line-height: 1.45;
+  color: var(--ink-4);
 }
 
 .model-core {
@@ -2083,6 +2124,19 @@ footer {
 
   .chat-fields {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .model-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .model-item {
+    padding: 15px 13px;
+  }
+
+  .model-logo {
+    height: 28px;
   }
 
   .ticker-item {
