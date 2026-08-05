@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import React, { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { prefersReducedMotion } from '../lib/useStage'
 
 /**
@@ -19,6 +19,12 @@ const PAUSE_MS = 220
 const GAP_MS = 240
 
 const GRADIENT_STOPS = ['#0f5568', '#1a7d90', '#a3762f']
+
+/**
+ * Một gốc thời gian dùng chung cho mọi khối chữ, nếu không mỗi khối sẽ lặp theo
+ * nhịp riêng và lệch pha nhau — nhìn rất rối.
+ */
+let clockOrigin: number | null = null
 
 const hex = (value: string) => [
   parseInt(value.slice(1, 3), 16),
@@ -50,20 +56,31 @@ export function KineticText({
   startDelay = 0,
   typeMs = 30,
   riseMs = 110,
+  cycleMs = 0,
   as: Tag = 'span',
   className,
   onDone,
 }: {
+  /**
+   * PHẢI là hằng số đặt ngoài component. Nếu tạo mảng mới ở mỗi lần render thì
+   * dòng thời gian bị dựng lại liên tục và chữ sẽ nhấp nháy không ngừng.
+   */
   segments: Segment[]
   startDelay?: number
   typeMs?: number
   riseMs?: number
+  /**
+   * Độ dài một vòng, tính cả quãng nghỉ để đọc. Mọi khối chữ dùng cùng một con
+   * số thì cả đoạn mở đầu chạy lại đồng thời. 0 = chạy đúng một lần.
+   */
+  cycleMs?: number
   as?: 'h1' | 'p' | 'span' | 'div'
   className?: string
   onDone?: () => void
 }) {
   const reduced = useMemo(() => prefersReducedMotion(), [])
   const [progress, setProgress] = useState(reduced ? Number.MAX_SAFE_INTEGER : 0)
+  const hostRef = useRef<HTMLElement>(null)
   const doneRef = useRef(false)
 
   // Dựng dòng thời gian: mỗi bước là một ký tự (chế độ gõ) hoặc một từ (nổi lên).
@@ -115,30 +132,75 @@ export function KineticText({
 
   useEffect(() => {
     if (reduced || total === 0) return
+
     let frame = 0
-    const start = performance.now()
+    let timer = 0
+    let onScreen = true
 
     const tick = (now: number) => {
-      const elapsed = now - start
+      if (clockOrigin === null) clockOrigin = now
+      const elapsed = cycleMs > 0 ? (now - clockOrigin) % cycleMs : now - clockOrigin
+
       let count = 0
       while (count < total && steps[count].at <= elapsed) count += 1
       setProgress(count)
+
       if (count < total) {
         frame = requestAnimationFrame(tick)
-      } else if (!doneRef.current) {
+        return
+      }
+
+      if (!doneRef.current) {
         doneRef.current = true
         onDone?.()
+      }
+
+      // Đã chạy xong: ngủ tới đầu vòng sau thay vì quay rAF không công.
+      if (cycleMs > 0 && onScreen) {
+        timer = window.setTimeout(
+          () => {
+            frame = requestAnimationFrame(tick)
+          },
+          Math.max(50, cycleMs - elapsed + 20),
+        )
       }
     }
 
     frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
-  }, [reduced, steps, total, onDone])
+
+    // Khuất khỏi màn hình thì dừng hẳn, không chạy nền vô ích.
+    const host = hostRef.current
+    const observer = host
+      ? new IntersectionObserver(
+          ([entry]) => {
+            onScreen = entry.isIntersecting
+            if (onScreen) {
+              frame = requestAnimationFrame(tick)
+            } else {
+              cancelAnimationFrame(frame)
+              window.clearTimeout(timer)
+            }
+          },
+          { threshold: 0 },
+        )
+      : null
+    if (host && observer) observer.observe(host)
+
+    return () => {
+      cancelAnimationFrame(frame)
+      window.clearTimeout(timer)
+      observer?.disconnect()
+    }
+  }, [reduced, steps, total, cycleMs, onDone])
 
   const typing = !reduced && progress < total
 
   return (
-    <Tag className={className} data-typing={typing ? 'true' : undefined}>
+    <Tag
+      className={className}
+      ref={hostRef as React.Ref<never>}
+      data-typing={typing ? 'true' : undefined}
+    >
       {pieces.map((piece, pieceIndex) => (
         <span className={piece.className} key={pieceIndex}>
           {piece.words.map((word, wordIndex) => (

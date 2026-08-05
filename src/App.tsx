@@ -14,11 +14,13 @@ import {
   X,
 } from './components/Icons'
 import { Backdrop } from './components/Backdrop'
-import { KineticText } from './components/KineticText'
+import { ChatConsult } from './components/ChatConsult'
+import { FloatingWidgets } from './components/FloatingWidgets'
+import { KineticText, type Segment } from './components/KineticText'
 import { Stage } from './components/Stage'
 import { beats, models, pains, signals } from './content'
 import { photoCredits } from './credits'
-import { buildDemoMailto, siteConfig } from './config'
+import { siteConfig } from './config'
 import { prefersReducedMotion, useRevealOnScroll, useScrolledPast } from './lib/useStage'
 
 const capabilities = [
@@ -66,20 +68,37 @@ const capabilities = [
   },
 ]
 
+/**
+ * Đặt ngoài component: nếu dựng mảng mới ở mỗi lần render thì dòng thời gian bị
+ * tính lại liên tục và chữ sẽ nhấp nháy không ngừng.
+ */
+const HERO_EYEBROW: Segment[] = [{ text: siteConfig.productTagline }]
+const HERO_LINE_1: Segment[] = [{ text: 'Mỗi đồng ngân sách' }]
+const HERO_LINE_2: Segment[] = [{ text: 'đều biết nó đã đi về đâu.', mode: 'rise', gradient: true }]
+const HERO_LEAD: Segment[] = [
+  { text: 'Locaith nối quảng cáo với dữ liệu khách hàng, chiến dịch và báo cáo — để chủ đầu tư và sàn phân phối' },
+  { text: 'nhìn thấy hiệu quả thật', mode: 'rise', className: 'lead-em' },
+  { text: 'và ra quyết định' },
+  { text: 'ngay trên số liệu.', mode: 'rise', className: 'lead-em' },
+]
+
+/** Một vòng chữ mở đầu: chạy hết khoảng 6 giây rồi đứng yên gần 7 giây cho người đọc. */
+const HERO_CYCLE = 13000
+
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const stuck = useScrolledPast(20)
-  const mailto = buildDemoMailto()
+  const contactUrl = siteConfig.zaloUrl
 
   useRevealOnScroll()
 
   return (
     <>
       <Backdrop variant="page" />
-      <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} mailto={mailto} stuck={stuck} />
+      <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} contactUrl={contactUrl} stuck={stuck} />
 
       <main>
-        <Hero mailto={mailto} />
+        <Hero contactUrl={contactUrl} />
 
         <div className="ticker">
           <div className="container ticker-row" data-stagger="scale">
@@ -163,8 +182,8 @@ function App() {
                 Locaith nối ba vòng lặp vốn đang tách rời: hiểu điều gì đang xảy ra, tạo phương án tiếp theo và đo lại
                 kết quả sau khi triển khai.
               </p>
-              <a className="text-link" href={mailto}>
-                Đăng ký demo <ArrowRight />
+              <a className="text-link" href={contactUrl} target="_blank" rel="noreferrer noopener">
+                Liên hệ ngay <ArrowRight />
               </a>
             </div>
             <div className="workflow-rail" data-stagger="right">
@@ -213,7 +232,7 @@ function App() {
           </div>
         </section>
 
-        <section className="section-pad" id="thuc-te">
+        <section className="section-pad" id="tu-van">
           <div className="container case-grid">
             <div className="case-panel" data-reveal="left">
               <div className="eyebrow">Bài toán bất động sản thực tế</div>
@@ -246,29 +265,7 @@ function App() {
                 ))}
               </div>
             </div>
-            <div className="insight-card" data-reveal="right" data-delay="1">
-              <div className="insight-header">
-                <span>Bản tin điều hành</span>
-                <span className="status-dot">Trực tiếp</span>
-              </div>
-              <p className="insight-question">“Chiến dịch nào đang tạo khách hàng chất lượng với chi phí tốt nhất?”</p>
-              <div className="insight-answer">
-                <div className="avatar-mark">L</div>
-                <div>
-                  <strong>Trợ lý dữ liệu Locaith</strong>
-                  <p>
-                    Nhóm dự án phía Nam đang có chi phí mỗi khách hàng thấp nhất, trong khi hai chiến dịch vẫn tiêu ngân
-                    sách mà chưa ra khách hàng nào. Khuyến nghị dịch ngân sách sang nhóm hiệu quả và tạm dừng nhóm còn
-                    lại.
-                  </p>
-                </div>
-              </div>
-              <div className="insight-bars" aria-hidden="true">
-                <span style={{ '--bar': '86%' } as CSSProperties} />
-                <span style={{ '--bar': '63%' } as CSSProperties} />
-                <span style={{ '--bar': '41%' } as CSSProperties} />
-              </div>
-            </div>
+            <ChatConsult />
           </div>
         </section>
 
@@ -283,8 +280,8 @@ function App() {
               </p>
             </div>
             <div className="cta-actions" data-stagger="scale">
-              <a className="button button-primary" href={mailto}>
-                Đăng ký demo <ArrowRight />
+              <a className="button button-primary" href={contactUrl} target="_blank" rel="noreferrer noopener">
+                Liên hệ ngay qua Zalo <ArrowRight />
               </a>
               <a className="button button-ghost" href={siteConfig.homeUrl} target="_blank" rel="noreferrer">
                 Xem Locaith.com <ArrowUpRight />
@@ -293,6 +290,8 @@ function App() {
           </div>
         </section>
       </main>
+
+      <FloatingWidgets />
 
       <footer>
         <div className="container footer-grid" data-stagger="lift">
@@ -376,12 +375,12 @@ function App() {
 function Header({
   menuOpen,
   setMenuOpen,
-  mailto,
+  contactUrl,
   stuck,
 }: {
   menuOpen: boolean
   setMenuOpen: (value: boolean) => void
-  mailto: string
+  contactUrl: string
   stuck: boolean
 }) {
   const close = () => setMenuOpen(false)
@@ -403,11 +402,11 @@ function Header({
           <a href="#nen-tang" onClick={close}>
             Nền tảng
           </a>
-          <a href="#thuc-te" onClick={close}>
-            Thực tế
+          <a href="#tu-van" onClick={close}>
+            Tư vấn
           </a>
-          <a className="nav-cta" href={mailto} onClick={close}>
-            Đăng ký demo <ArrowUpRight />
+          <a className="nav-cta" href={contactUrl} target="_blank" rel="noreferrer noopener" onClick={close}>
+            Liên hệ ngay <ArrowUpRight />
           </a>
         </nav>
         <button
@@ -424,7 +423,7 @@ function Header({
   )
 }
 
-function Hero({ mailto }: { mailto: string }) {
+function Hero({ contactUrl }: { contactUrl: string }) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 })
 
   useEffect(() => {
@@ -453,7 +452,8 @@ function Hero({ mailto }: { mailto: string }) {
           className="eyebrow eyebrow-accent"
           startDelay={260}
           typeMs={20}
-          segments={[{ text: siteConfig.productTagline }]}
+          cycleMs={HERO_CYCLE}
+          segments={HERO_EYEBROW}
         />
         <h1 className="hero-title">
           <KineticText
@@ -461,14 +461,16 @@ function Hero({ mailto }: { mailto: string }) {
             className="hero-line"
             startDelay={1150}
             typeMs={34}
-            segments={[{ text: 'Mỗi đồng ngân sách' }]}
+            cycleMs={HERO_CYCLE}
+            segments={HERO_LINE_1}
           />
           <KineticText
             as="span"
             className="hero-line"
             startDelay={1900}
             riseMs={145}
-            segments={[{ text: 'đều biết nó đã đi về đâu.', mode: 'rise', gradient: true }]}
+            cycleMs={HERO_CYCLE}
+            segments={HERO_LINE_2}
           />
         </h1>
         <KineticText
@@ -477,19 +479,15 @@ function Hero({ mailto }: { mailto: string }) {
           startDelay={2700}
           typeMs={11}
           riseMs={90}
-          segments={[
-            { text: 'Locaith nối quảng cáo với dữ liệu khách hàng, chiến dịch và báo cáo — để chủ đầu tư và sàn phân phối' },
-            { text: 'nhìn thấy hiệu quả thật', mode: 'rise', className: 'lead-em' },
-            { text: 'và ra quyết định' },
-            { text: 'ngay trên số liệu.', mode: 'rise', className: 'lead-em' },
-          ]}
+          cycleMs={HERO_CYCLE}
+          segments={HERO_LEAD}
         />
         <div className="hero-actions">
-          <a className="button button-primary" href="#san-pham">
+          <a className="button button-primary" href="#tu-van">
             Xem sản phẩm <ArrowRight />
           </a>
-          <a className="button button-ghost" href={mailto}>
-            Đăng ký demo <ArrowUpRight />
+          <a className="button button-ghost" href={contactUrl} target="_blank" rel="noreferrer noopener">
+            Liên hệ ngay <ArrowUpRight />
           </a>
         </div>
         <div className="hero-note">

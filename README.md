@@ -32,6 +32,8 @@ npm run preview
 | `src/components/Stage.tsx` | Phần cuộn khoá kể chuyện (scrollytelling) |
 | `src/components/Backdrop.tsx` | Nền lưới ảnh dự án đặt chéo, trôi dọc |
 | `src/components/KineticText.tsx` | Chữ chạy ở đầu trang: gõ máy + nổi lên dần |
+| `src/components/ChatConsult.tsx` | Form thu thập thông tin + khung trò chuyện nhúng |
+| `src/components/FloatingWidgets.tsx` | Nút Zalo OA và nút trợ lý nổi ở chân màn hình |
 | `src/lib/useStage.ts` | Hook đo tiến độ cuộn và tính chuyển động giả 3D |
 | `src/content.ts` | Nội dung từng nhịp cuộn — sửa chữ ở đây |
 | `src/config.ts` | Tên miền, email nhận demo, tên case study |
@@ -59,6 +61,19 @@ Cả trang chỉ có **một** ngôn ngữ chuyển động: trồi lên + nét 
 - Toàn bộ tắt sạch khi người dùng bật "giảm chuyển động".
 
 Ở đầu trang, câu dẫn chạy như đánh máy còn những cụm cần nhấn thì nổi lên dần từng từ — xem `src/components/KineticText.tsx`. Cụm nhấn không dùng `background-clip: text` được (chữ trong suốt thì không có gì để mờ dần), nên màu chuyển teal → đồng được tính cho từng từ trong JS.
+
+Hai điều bắt buộc khi sửa phần này:
+
+- **Mảng `segments` phải là hằng số đặt ngoài component.** Dựng mảng mới ở mỗi lần render thì dòng thời gian bị tính lại liên tục và chữ nhấp nháy không ngừng.
+- **Mọi khối chữ dùng chung một `cycleMs`** (`HERO_CYCLE` trong `src/App.tsx`, đang là 13 giây: chạy hết khoảng 6 giây rồi đứng yên gần 7 giây). Mỗi khối lặp theo nhịp riêng sẽ lệch pha và nhìn rất rối. Hiệu ứng dừng hẳn khi khối chữ khuất khỏi màn hình.
+
+## Kênh liên hệ
+
+- Mọi nút kêu gọi đều mở **Zalo Official Account** `siteConfig.zaloUrl`. Đổi OA thì sửa `zaloOaId` và `zaloUrl` trong `src/config.ts`.
+- Nút Zalo nổi ở góc trái dưới; nút trợ lý Phê Nâu ở góc phải dưới — đặt hai bên để không đè nhau. Biểu tượng nút trợ lý được thay bằng logo Locaith sau khi script bên ngoài dựng xong nút (dùng `MutationObserver` vì script nạp không đồng bộ).
+- Phần **Tư vấn** hỏi tên, công ty, số điện thoại, email trước rồi mới mở khung trò chuyện. Thông tin lưu ở `localStorage` nên lần sau vào không phải điền lại.
+
+> **Còn phụ thuộc phía Phê Nâu:** thông tin khách để lại được gửi sang khung chat theo hai đường — tham số trên địa chỉ khung (`name`, `company`, `phone`, `email`) và `postMessage` kiểu `phechat:context`. Bản `embed.js` hiện tại chỉ lắng nghe `closeChat`, chưa có API nhận ngữ cảnh, nên trợ lý **chưa chắc đọc được**. Cần phía Phê Nâu bổ sung một trong hai đường trên thì phần này mới chạy trọn vẹn.
 
 ## Ảnh nền dự án
 
