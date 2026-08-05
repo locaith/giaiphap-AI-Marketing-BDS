@@ -273,11 +273,13 @@ function App() {
         <section className="section-pad cta-section" id="demo">
           <div className="container cta-card" data-reveal="scale">
             <div>
-              <div className="eyebrow">Sẵn sàng nhìn dữ liệu theo cách khác?</div>
-              <h2>Đưa một chiến dịch thật. Locaith dựng luồng demo thật.</h2>
+              <div className="eyebrow">Tối ưu vận hành doanh nghiệp</div>
+              <h2>
+                Sẵn sàng <span className="italic-accent">bứt phá doanh số</span> cùng công nghệ AI BĐS?
+              </h2>
               <p>
-                20 phút để nhìn thấy cách Locaith nối dữ liệu, nhận định và hành động cho chính doanh nghiệp bất động
-                sản của bạn.
+                Đưa dữ liệu thực tế của bạn — Locaith sẽ mô phỏng toàn bộ luồng vận hành tự động và lộ trình tăng
+                trưởng chi tiết cho doanh nghiệp.
               </p>
             </div>
             <div className="cta-actions" data-stagger="scale">

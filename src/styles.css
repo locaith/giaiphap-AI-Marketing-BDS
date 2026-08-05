@@ -1936,6 +1936,11 @@ html.snap-stage {
   box-shadow: var(--shadow-l);
 }
 
+/* dải màu nhấn của trang quá đậm so với nền mực, đổi sang bộ sáng hơn */
+.cta-card .italic-accent {
+  background-image: linear-gradient(100deg, #6ec5d4 0%, #9ed3c4 45%, #e2ba79 100%);
+}
+
 .cta-card h2 {
   color: #fff;
   margin-top: 18px;
