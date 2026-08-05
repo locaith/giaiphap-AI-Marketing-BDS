@@ -73,5 +73,6 @@ Dùng **Be Vietnam Pro** (chữ thường) và **Lora** (chữ tiêu đề). C�
 ## Điểm cần lưu ý khi sửa
 
 - `index.html`: canonical, `og:url`, `og:image` đang trỏ về `ai-bds.locaith.com`.
-- Ảnh chia sẻ mạng xã hội: `public/og-image.png` (1200×630).
+- Ảnh chia sẻ mạng xã hội: `public/og-image.png` (1200×630). Dựng lại bằng `npm i -D playwright-core && node tools/make-og-image.mjs`.
+- Hệ màu nằm gọn trong khối `:root` của `src/styles.css` — đổi 3 biến `--accent*` là đổi tông cả trang.
 - CTA đang dùng `mailto:` — thay bằng form hoặc webhook CRM khi cần.
