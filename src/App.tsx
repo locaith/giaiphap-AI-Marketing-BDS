@@ -28,21 +28,21 @@ const capabilities = [
   {
     icon: <Gauge />,
     index: '01',
-    title: 'Đo lường quảng cáo',
+    title: 'Quản Trị Hiệu Quả Quảng Cáo & ROI',
     text: 'Đo hiệu quả quảng cáo, chiến dịch, khách hàng và chi phí theo từng dự án, kênh hoặc đội kinh doanh.',
     meta: 'Quảng cáo → Khách hàng → Quyết định',
   },
   {
     icon: <Sparkles />,
     index: '02',
-    title: 'Xưởng chiến dịch AI',
+    title: 'Trung Tâm Đóng Gói Chiến Dịch AI',
     text: 'Từ nghiên cứu, chiến lược đến nội dung, hình ảnh và lịch triển khai trên cùng một luồng làm việc.',
     meta: 'Nghiên cứu → Chiến lược → Nội dung',
   },
   {
     icon: <Film />,
     index: '03',
-    title: 'Sản xuất video bằng AI',
+    title: 'Nhà Máy Sản Xuất Video BĐS Hàng Loạt',
     text: 'Tạo video từ chữ hoặc ảnh, kèm lồng tiếng, phụ đề và nhiều tỷ lệ khung hình cho mạng xã hội.',
     meta: 'Chữ hoặc ảnh → Video',
   },
@@ -63,7 +63,7 @@ const capabilities = [
   {
     icon: <Layers />,
     index: '06',
-    title: 'Thương hiệu và mạng xã hội',
+    title: 'Quản Trị Thương Hiệu & Kho Tài Nguyên Số',
     text: 'Quản trị bộ nhận diện, mạng xã hội và kho tài sản nội dung để giữ thông điệp nhất quán.',
     meta: 'Nhất quán ở mọi quy mô',
   },
