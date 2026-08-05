@@ -70,7 +70,7 @@ const capabilities: Capability[] = [
     icon: <Layers />,
     index: '06',
     title: 'Quản Trị Thương Hiệu & Kho Tài Nguyên Số',
-    short: 'Thương hiệu & Kho số',
+    short: 'Thương hiệu',
     text: 'Quản trị bộ nhận diện, mạng xã hội và kho tài sản nội dung để giữ thông điệp nhất quán.',
     meta: 'Nhất quán ở mọi quy mô',
   },
@@ -102,7 +102,7 @@ function App() {
 
   return (
     <>
-      <Backdrop variant="page" />
+      <Backdrop />
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} contactUrl={contactUrl} stuck={stuck} />
 
       <main>
@@ -450,7 +450,6 @@ function Hero({ contactUrl }: { contactUrl: string }) {
 
   return (
     <section className="hero" id="dau-trang">
-      <Backdrop variant="hero" />
       <div className="hero-wash" aria-hidden="true" />
       <div className="hero-grid-lines" aria-hidden="true" />
 

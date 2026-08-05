@@ -100,7 +100,9 @@ node tools/fetch-project-photos.mjs
 
 **Dùng ảnh dự án của chính doanh nghiệp:** bỏ file vào `public/projects/` theo tên `tile-01.webp` … `tile-NN.webp` (tỷ lệ 4:5, tông sáng), rồi cập nhật `src/credits.ts` cho khớp. Cách này chuẩn nhất vì hiện đúng dự án đang mở bán và không vướng bản quyền.
 
-Chỉnh độ đậm nhạt của nền: `.backdrop-page` và `.backdrop-hero` trong `src/styles.css`.
+Chỉnh độ đậm nhạt của nền: `.backdrop` trong `src/styles.css`.
+
+**Giữ số ảnh ở mức thấp nhất còn đủ kín màn hình.** Mỗi thẻ ảnh là một lớp phải ghép lại ở mỗi khung hình; bản đầu dùng hai lớp nền chồng nhau, 7 cột × 10 ảnh mỗi lớp là 140 thẻ, cuộn thấy giật rõ. Nay còn một lớp, 5 cột × 8 ảnh = 40 thẻ và ảnh cắt đúng cỡ hiển thị (400×500), tổng 482KB. Không đặt `will-change: transform` cho các cột: hoạt ảnh transform tự lên lớp riêng khi chạy, khai báo thêm chỉ tốn bộ nhớ đồ hoạ.
 
 ## Logo nhà cung cấp mô hình
 

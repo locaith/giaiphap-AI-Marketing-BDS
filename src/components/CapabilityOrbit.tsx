@@ -14,8 +14,8 @@ export type Capability = {
 const ANGLES = [-90, -30, 30, 90, 150, 210]
 
 /** Bán kính theo phần trăm khung, tách trục để nhánh trái phải không tràn mép. */
-const RX = 37
-const RY = 35
+const RX = 41
+const RY = 39
 
 const point = (angle: number) => {
   const rad = (angle * Math.PI) / 180

@@ -21,8 +21,8 @@ import path from 'node:path'
 
 const OUT = 'public/projects'
 const UA = 'LocaithLandingBot/1.0 (https://ai-bds.locaith.com; locaithsolution@locaith.com)'
-const TILE_W = 520
-const TILE_H = 650
+const TILE_W = 400
+const TILE_H = 500
 
 /** [tên file trên Commons, nhãn hiển thị trong phần ghi nguồn] */
 const FILES = [
@@ -73,7 +73,10 @@ async function imageInfo(titles) {
   return found
 }
 
-/** Đưa mọi ảnh về cùng một tông: đủ sáng để chữ đè lên vẫn đọc, vẫn giữ màu và chi tiết. */
+/**
+ * Đưa mọi ảnh về cùng một tông: đủ sáng để chữ đè lên vẫn đọc, vẫn giữ màu và
+ * chi tiết. Cỡ ảnh vừa đủ cho bề rộng một cột nền, không phóng to hơn mức cần.
+ */
 async function toTile(buffer, outPath) {
   const base = sharp(buffer)
     .resize({ width: TILE_W, height: TILE_H, fit: 'cover', position: 'attention' })
@@ -87,7 +90,7 @@ async function toTile(buffer, outPath) {
     .linear(gain, 10)
     .sharpen({ sigma: 0.7 })
     .toColourspace('srgb')
-    .webp({ quality: 76, effort: 6 })
+    .webp({ quality: 72, effort: 6 })
     .toFile(outPath)
 }
 
