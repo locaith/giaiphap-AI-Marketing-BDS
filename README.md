@@ -47,6 +47,8 @@ npm run preview
 
 Khối `Stage` cao `(số nhịp + 1) × 100vh`, bên trong có một khung `position: sticky` cao đúng một màn hình. Mỗi nhịp chiếm trọn một màn cuộn: **70% đầu giữ nguyên tại chỗ** để người đọc kịp đọc hết câu, 30% cuối mới chuyển sang nhịp kế. Các điểm neo vô hình đặt đúng chỗ chuyển nhịp nên cuộn luôn dừng ở một nhịp trọn vẹn chứ không kẹt giữa hai nhịp.
 
+Trên màn hẹp, ảnh sản phẩm chuyển sang **khung đứng và cắt lấy góc trái trên** thay vì thu cả ảnh ngang vào khung — thu nhỏ thì chữ trong ảnh không đọc nổi. Chiều cao đặt trực tiếp bằng `height: clamp(...)`, không dùng `aspect-ratio` kèm `max-height`: đi cùng nhau thì trình duyệt co luôn bề ngang cho khớp tỷ lệ, khung bị hẹp lại và lệch khỏi cột. Thẻ `sizes` cũng cho màn hẹp lấy bản ảnh lớn vì phần nhìn thấy đã được phóng to.
+
 Sửa nội dung các nhịp trong `src/content.ts` — thêm hoặc bớt phần tử của mảng `beats` thì chiều cao và thanh tiến độ tự tính lại.
 
 ## Ảnh sản phẩm

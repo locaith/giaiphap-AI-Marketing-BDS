@@ -2170,7 +2170,34 @@ footer {
 
   .stage-sticky {
     align-items: flex-start;
-    padding-top: 92px;
+    padding-top: 78px;
+  }
+
+  /*
+    Màn hẹp: thu cả ảnh ngang vào khung thì chữ trong ảnh bé không đọc nổi.
+    Đổi sang khung đứng rồi cắt lấy góc trái trên — nơi luôn có phần nội dung
+    chính — nên phần nhìn thấy được phóng to lên khoảng gấp rưỡi.
+
+    Đặt chiều cao trực tiếp thay vì dùng aspect-ratio kèm max-height: khi hai
+    thứ đó đi cùng nhau, trình duyệt co luôn bề ngang cho khớp tỷ lệ, khung bị
+    hẹp lại và lệch khỏi cột.
+  */
+  .stage-deck {
+    aspect-ratio: auto;
+    height: clamp(300px, 50vh, 460px);
+    max-height: none;
+  }
+
+  .stage-card .frame-shot {
+    object-position: left top;
+  }
+}
+
+@supports (height: 100svh) {
+  @media (max-width: 1023px) {
+    .stage-deck {
+      height: clamp(300px, 50svh, 460px);
+    }
   }
 }
 

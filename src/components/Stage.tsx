@@ -277,7 +277,7 @@ function Screenshot({ beat, eager }: { beat: Beat; eager: boolean }) {
         className="frame-shot"
         src={beat.image}
         srcSet={`${beat.imageSmall} 720w, ${beat.image} ${beat.width}w`}
-        sizes="(max-width: 1060px) 92vw, 62vw"
+        sizes="(max-width: 1023px) 1200px, 62vw"
         width={beat.width}
         height={beat.height}
         alt={beat.alt}
