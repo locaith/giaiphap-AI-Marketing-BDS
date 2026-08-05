@@ -11,16 +11,23 @@ export const siteConfig = {
   zaloOaId: '1864346228925847963',
   zaloUrl: 'https://zalo.me/1864346228925847963',
 
-  /** Trợ lý hội thoại Phê Nâu nhúng trong trang. */
-  phenauAgentId: '34df70ef-8edb-414f-bdea-b14d91024a1a',
   phenauBaseUrl: 'https://phenau.com',
+
+  /** Trợ lý cho nút nổi ở góc màn hình. */
+  phenauWidgetAgentId: '34df70ef-8edb-414f-bdea-b14d91024a1a',
+
+  /** Trợ lý cho khung trò chuyện thử ngay trong phần Tư vấn. */
+  phenauChatAgentId: '0360da18-2ea5-4424-ae73-e6dfc056a21e',
 } as const
 
 /** Địa chỉ khung chat nhúng, kèm thông tin người dùng vừa để lại nếu có. */
-export function buildChatUrl(lead?: { name: string; company: string; phone: string; email: string }) {
-  const url = new URL(`${siteConfig.phenauBaseUrl}/agents/${siteConfig.phenauAgentId}/public`)
+export function buildChatUrl(
+  lead?: { name: string; company: string; phone: string; email: string },
+  version?: number,
+) {
+  const url = new URL(`${siteConfig.phenauBaseUrl}/agents/${siteConfig.phenauChatAgentId}/public`)
   url.searchParams.set('embed', '1')
-  url.searchParams.set('widget', '1')
+  if (version) url.searchParams.set('v', String(version))
   if (lead) {
     url.searchParams.set('name', lead.name)
     url.searchParams.set('company', lead.company)

@@ -36,6 +36,7 @@ export function ChatConsult() {
   const [lead, setLead] = useState<Lead | null>(null)
   const [form, setForm] = useState<Lead>(EMPTY)
   const [errors, setErrors] = useState<Partial<Record<keyof Lead, string>>>({})
+  const [version] = useState(() => Date.now())
   const frameRef = useRef<HTMLIFrameElement>(null)
 
   useEffect(() => {
@@ -108,13 +109,13 @@ export function ChatConsult() {
           <div className="chat-hello">
             <Check />
             Chào {lead.name}
-            {lead.company ? ` · ${lead.company}` : ''} — hỏi bất kỳ điều gì về giải pháp.
+            {lead.company ? ` · ${lead.company}` : ''} — hỏi thử trợ lý bất kỳ điều gì về giải pháp.
           </div>
           <iframe
             ref={frameRef}
             className="chat-frame"
             title="Trợ lý dữ liệu Locaith"
-            src={buildChatUrl(lead)}
+            src={buildChatUrl(lead, version)}
           />
           <button
             className="chat-reset"
@@ -130,51 +131,35 @@ export function ChatConsult() {
         </>
       ) : (
         <form onSubmit={submit} noValidate>
+          <h3 className="chat-title">Nhập thông tin để nói chuyện thử với AI</h3>
           <p className="chat-intro">
-            Để lại vài dòng để Locaith biết bạn là ai, rồi trò chuyện trực tiếp với trợ lý ngay tại đây.
+            Trợ lý trả lời ngay trong trang. Locaith cần vài thông tin để liên hệ lại sau cuộc trò chuyện.
           </p>
 
           <div className="chat-fields">
             <label>
               <span>Họ và tên *</span>
-              <input value={form.name} onChange={update('name')} autoComplete="name" placeholder="Nguyễn Văn A" />
+              <input value={form.name} onChange={update('name')} autoComplete="name" />
               {errors.name ? <em>{errors.name}</em> : null}
             </label>
             <label>
               <span>Công ty</span>
-              <input
-                value={form.company}
-                onChange={update('company')}
-                autoComplete="organization"
-                placeholder="Sàn / Chủ đầu tư"
-              />
+              <input value={form.company} onChange={update('company')} autoComplete="organization" />
             </label>
             <label>
               <span>Số điện thoại *</span>
-              <input
-                value={form.phone}
-                onChange={update('phone')}
-                autoComplete="tel"
-                inputMode="tel"
-                placeholder="09xx xxx xxx"
-              />
+              <input value={form.phone} onChange={update('phone')} autoComplete="tel" inputMode="tel" />
               {errors.phone ? <em>{errors.phone}</em> : null}
             </label>
             <label>
               <span>Email *</span>
-              <input
-                value={form.email}
-                onChange={update('email')}
-                autoComplete="email"
-                inputMode="email"
-                placeholder="ban@congty.com"
-              />
+              <input value={form.email} onChange={update('email')} autoComplete="email" inputMode="email" />
               {errors.email ? <em>{errors.email}</em> : null}
             </label>
           </div>
 
           <button className="button button-primary chat-submit" type="submit">
-            Bắt đầu trò chuyện <ArrowRight />
+            Nói chuyện thử với AI <ArrowRight />
           </button>
           <p className="chat-note">Thông tin chỉ dùng để Locaith liên hệ tư vấn, không chia sẻ cho bên thứ ba.</p>
         </form>

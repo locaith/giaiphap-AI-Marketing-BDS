@@ -1,7 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { siteConfig } from '../config'
 
 const PHENAU_SCRIPT_ID = 'phenau-widget'
+const ZALO_SCRIPT_ID = 'zalo-sdk'
 
 /** Thay biểu tượng mặc định của nút chat bằng logo Locaith. */
 function brandChatButton() {
@@ -16,10 +17,17 @@ function brandChatButton() {
 }
 
 /**
- * Hai kênh liên hệ nổi ở chân màn hình: Zalo Official Account bên trái, trợ lý
- * hội thoại bên phải — đặt hai bên để không đè lên nhau.
+ * Hai kênh liên hệ nổi ở chân màn hình: khung chat Zalo Official Account bên
+ * trái, trợ lý hội thoại bên phải — đặt hai bên để không đè lên nhau.
+ *
+ * Khung Zalo do SDK của Zalo dựng và mở ngay trong trang. SDK chỉ chạy trên
+ * domain đã khai báo ở Zalo Official Account Manager; nếu nó không dựng được
+ * widget thì nút dự phòng bên dưới sẽ hiện ra và mở trang OA.
  */
 export function FloatingWidgets() {
+  const [zaloReady, setZaloReady] = useState(false)
+  const [zaloFailed, setZaloFailed] = useState(false)
+
   useEffect(() => {
     if (!document.getElementById(PHENAU_SCRIPT_ID)) {
       const script = document.createElement('script')
@@ -27,7 +35,7 @@ export function FloatingWidgets() {
       script.async = true
       script.src =
         `${siteConfig.phenauBaseUrl}/api/widget/agents/embed.js` +
-        `?agentId=${siteConfig.phenauAgentId}&position=bottom-right&color=%230d2438`
+        `?agentId=${siteConfig.phenauWidgetAgentId}&position=bottom-right&color=%230d2438`
       document.body.appendChild(script)
     }
 
@@ -46,17 +54,65 @@ export function FloatingWidgets() {
     }
   }, [])
 
+  useEffect(() => {
+    // Div này phải do DOM thuần tạo: React gắn thuộc tính nội bộ lên node, SDK
+    // Zalo đọc node đó rồi JSON.stringify và văng lỗi vòng lặp liên tục.
+    let host = document.querySelector<HTMLDivElement>('.zalo-chat-widget')
+    if (!host) {
+      host = document.createElement('div')
+      host.className = 'zalo-chat-widget'
+      host.dataset.oaid = siteConfig.zaloOaId
+      host.dataset.welcomeMessage = 'Chào bạn, Locaith có thể hỗ trợ gì cho doanh nghiệp bất động sản của bạn?'
+      host.dataset.autopopup = '0'
+      host.dataset.width = '350'
+      host.dataset.height = '420'
+      document.body.appendChild(host)
+    }
+
+    if (!document.getElementById(ZALO_SCRIPT_ID)) {
+      const script = document.createElement('script')
+      script.id = ZALO_SCRIPT_ID
+      script.async = true
+      script.src = 'https://sp.zalo.me/plugins/sdk.js'
+      document.body.appendChild(script)
+    }
+
+    // SDK dựng xong thì khung chat có nội dung; quá lâu vẫn rỗng thì coi như hỏng.
+    const check = window.setInterval(() => {
+      if (host && host.children.length > 0) {
+        setZaloReady(true)
+        window.clearInterval(check)
+      }
+    }, 400)
+
+    const giveUp = window.setTimeout(() => {
+      window.clearInterval(check)
+      if (!host || host.children.length === 0) setZaloFailed(true)
+    }, 6000)
+
+    return () => {
+      window.clearInterval(check)
+      window.clearTimeout(giveUp)
+    }
+  }, [])
+
   return (
-    <a
-      className="zalo-float"
-      href={siteConfig.zaloUrl}
-      target="_blank"
-      rel="noreferrer noopener"
-      aria-label="Nhắn tin cho Locaith AI qua Zalo Official Account"
-    >
-      <ZaloMark />
-      <span>Chat Zalo</span>
-    </a>
+    <>
+      {zaloReady || zaloFailed ? null : <span className="visually-hidden">Đang tải khung chat Zalo</span>}
+
+      {zaloFailed ? (
+        <a
+          className="zalo-float"
+          href={siteConfig.zaloUrl}
+          target="_blank"
+          rel="noreferrer noopener"
+          aria-label="Nhắn tin cho Locaith AI qua Zalo Official Account"
+        >
+          <ZaloMark />
+          <span>Chat Zalo</span>
+        </a>
+      ) : null}
+    </>
   )
 }
 

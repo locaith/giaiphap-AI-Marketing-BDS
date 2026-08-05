@@ -70,7 +70,9 @@ Hai điều bắt buộc khi sửa phần này:
 ## Kênh liên hệ
 
 - Mọi nút kêu gọi đều mở **Zalo Official Account** `siteConfig.zaloUrl`. Đổi OA thì sửa `zaloOaId` và `zaloUrl` trong `src/config.ts`.
-- Nút Zalo nổi ở góc trái dưới; nút trợ lý Phê Nâu ở góc phải dưới — đặt hai bên để không đè nhau. Biểu tượng nút trợ lý được thay bằng logo Locaith sau khi script bên ngoài dựng xong nút (dùng `MutationObserver` vì script nạp không đồng bộ).
+- **Khung chat Zalo** mở ngay trong trang bằng SDK chính thức, neo góc trái dưới; nút trợ lý Phê Nâu ở góc phải dưới — đặt hai bên để không đè nhau. Biểu tượng nút trợ lý được thay bằng logo Locaith sau khi script bên ngoài dựng xong nút (dùng `MutationObserver` vì script nạp không đồng bộ).
+- Div `.zalo-chat-widget` **phải tạo bằng DOM thuần**, không render qua React: React gắn thuộc tính nội bộ lên node, SDK Zalo đọc node đó rồi `JSON.stringify` và văng lỗi vòng lặp liên tục. SDK chỉ chạy trên domain đã khai báo trong Zalo Official Account Manager — nếu không dựng được widget, một nút dự phòng sẽ hiện ra và mở trang OA.
+- Hai trợ lý Phê Nâu khác nhau: `phenauWidgetAgentId` cho nút nổi, `phenauChatAgentId` cho khung trò chuyện thử trong phần Tư vấn.
 - Phần **Tư vấn** hỏi tên, công ty, số điện thoại, email trước rồi mới mở khung trò chuyện. Thông tin lưu ở `localStorage` nên lần sau vào không phải điền lại.
 
 > **Còn phụ thuộc phía Phê Nâu:** thông tin khách để lại được gửi sang khung chat theo hai đường — tham số trên địa chỉ khung (`name`, `company`, `phone`, `email`) và `postMessage` kiểu `phechat:context`. Bản `embed.js` hiện tại chỉ lắng nghe `closeChat`, chưa có API nhận ngữ cảnh, nên trợ lý **chưa chắc đọc được**. Cần phía Phê Nâu bổ sung một trong hai đường trên thì phần này mới chạy trọn vẹn.
