@@ -1050,6 +1050,24 @@ html.snap-stage {
   text-wrap: balance;
 }
 
+/*
+  Cụm được nhấn trong tiêu đề nhịp: chữ màu teal, gạch chân là một dải chuyển
+  từ teal sang đồng. Dùng nền thay cho text-decoration để chỉnh được độ dày,
+  khoảng cách và bo góc; box-decoration-break giữ gạch chân trên mọi dòng khi
+  tiêu đề xuống dòng.
+*/
+.beat-accent {
+  color: var(--accent);
+  background-image: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 55%, var(--accent-3) 100%);
+  background-repeat: no-repeat;
+  background-size: 100% 0.09em;
+  background-position: 0 calc(100% - 0.06em);
+  padding-bottom: 0.12em;
+  border-radius: 2px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
 .stage-beat p {
   max-width: 34ch;
   font-size: 0.94rem;

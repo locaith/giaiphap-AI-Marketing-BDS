@@ -3,6 +3,8 @@ export type Beat = {
   tag: string
   index: string
   title: string
+  /** Cụm trong tiêu đề được tô màu và gạch chân. Phải là một đoạn có trong title. */
+  accent?: string
   text: string
   image: string
   imageSmall: string
@@ -22,6 +24,7 @@ export const beats: Beat[] = [
     tag: 'Truy nguyên',
     index: '01',
     title: 'Từng số điện thoại truy ra đúng chiến dịch.',
+    accent: 'đúng chiến dịch',
     text: 'Khách để lại thông tin ở quảng cáo nào, quan tâm loại hình gì, đang ở giai đoạn nào và hợp đồng bao nhiêu — nằm trên cùng một dòng.',
     image: '/exhibits/leads.webp',
     imageSmall: '/exhibits/leads@720.webp',
@@ -34,7 +37,8 @@ export const beats: Beat[] = [
     id: 'hieu-qua',
     tag: 'Hiệu quả',
     index: '02',
-    title: 'Chiến dịch nào ra hợp đồng, chiến dịch nào chỉ ra chi phí.',
+    title: 'Từ chi phí cho đến doanh thu.',
+    accent: 'doanh thu',
     text: 'Ngân sách đã tiêu, số khách thu được, số hợp đồng đã chốt và doanh thu tương ứng, xếp cạnh nhau theo từng dự án.',
     image: '/exhibits/performance.webp',
     imageSmall: '/exhibits/performance@720.webp',
@@ -48,6 +52,7 @@ export const beats: Beat[] = [
     tag: 'Báo cáo',
     index: '03',
     title: 'Tải báo cáo ngay khi có dữ liệu.',
+    accent: 'ngay khi có dữ liệu',
     text: 'Cùng một bộ số cho mọi kỳ, tải về nhập thẳng vào phần mềm quản lý khách hàng, không phải ghép tay từng file.',
     image: '/exhibits/reports.webp',
     imageSmall: '/exhibits/reports@720.webp',
@@ -60,7 +65,8 @@ export const beats: Beat[] = [
     id: 'hoi-dap',
     tag: 'Hỏi đáp',
     index: '04',
-    title: 'Hỏi bằng tiếng Việt, nhận báo cáo kèm bảng số.',
+    title: 'Truy vấn dữ liệu với AI Agent.',
+    accent: 'Truy vấn dữ liệu',
     text: 'Câu trả lời luôn đi cùng dữ liệu đã dùng để tạo ra nó, nên kiểm chứng được thay vì phải tin suông.',
     image: '/exhibits/ask.webp',
     imageSmall: '/exhibits/ask@720.webp',
@@ -74,6 +80,7 @@ export const beats: Beat[] = [
     tag: 'Quyết định',
     index: '05',
     title: 'Nên dồn ngân sách vào đâu, nên dừng ở đâu.',
+    accent: 'nên dừng ở đâu',
     text: 'Khuyến nghị xếp hạng theo chi phí mỗi khách, lượng khách thu được và khả năng hấp thụ ngân sách — mỗi ý dẫn ngược về con số phía trên.',
     image: '/exhibits/recommendations.webp',
     imageSmall: '/exhibits/recommendations@720.webp',

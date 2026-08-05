@@ -243,9 +243,22 @@ function BeatCopy({ beat }: { beat: Beat }) {
         <i>{beat.index}</i>
         {beat.tag}
       </div>
-      <h2>{beat.title}</h2>
+      <BeatTitle title={beat.title} accent={beat.accent} />
       <p>{beat.text}</p>
     </>
+  )
+}
+
+function BeatTitle({ title, accent }: { title: string; accent?: string }) {
+  const at = accent ? title.indexOf(accent) : -1
+  if (at < 0 || !accent) return <h2>{title}</h2>
+
+  return (
+    <h2>
+      {title.slice(0, at)}
+      <span className="beat-accent">{accent}</span>
+      {title.slice(at + accent.length)}
+    </h2>
   )
 }
 
