@@ -110,6 +110,12 @@ Lấy về bằng `node tools/fetch-model-logos.mjs` (Wikimedia Commons, giấy 
 
 Dùng **Be Vietnam Pro** (chữ thường) và **Lora** (chữ tiêu đề). Cả hai đều dựng đủ các tổ hợp dấu tiếng Việt như `ồ`, `ỗ`, `ự`, `ặ`. Nếu đổi font khác, phải kiểm tra lại đúng những ký tự này — nhiều font Latin phổ biến (kể cả Playfair Display) bị tách rời dấu.
 
+## Đo lường
+
+Dùng Vercel Web Analytics. Thành phần `<Analytics />` gắn ở `src/main.tsx`, nhập từ nhánh `@vercel/analytics/react` — trang này là Vite React thuần, không phải Remix hay Next.js như bản hướng dẫn mặc định trên Vercel.
+
+Gói nằm ở `dependencies`, không phải `devDependencies`: để ở devDependencies thì Vercel bỏ qua khi dựng bản chạy thật và số liệu sẽ không về. Chạy local không có số liệu, phải mở đúng tên miền đã deploy; nhớ tắt trình chặn quảng cáo khi kiểm tra.
+
 ## Điểm cần lưu ý khi sửa
 
 - `index.html`: canonical, `og:url`, `og:image` đang trỏ về `ai-bds.locaith.com`.
