@@ -1,0 +1,10 @@
+node_modules
+dist
+.vite
+.vercel
+.DS_Store
+*.local
+*.log
+
+# tài liệu triển khai nội bộ, không đưa lên repo công khai
+*.pdf
