@@ -14,6 +14,7 @@ import {
   X,
 } from './components/Icons'
 import { Backdrop } from './components/Backdrop'
+import { KineticText } from './components/KineticText'
 import { Stage } from './components/Stage'
 import { beats, models, pains, signals } from './content'
 import { photoCredits } from './credits'
@@ -81,7 +82,7 @@ function App() {
         <Hero mailto={mailto} />
 
         <div className="ticker">
-          <div className="container ticker-row">
+          <div className="container ticker-row" data-stagger="scale">
             {signals.map((item) => (
               <div className="ticker-item" key={item}>
                 {item}
@@ -92,7 +93,7 @@ function App() {
 
         <section className="section-pad" id="bai-toan">
           <div className="container split-grid">
-            <div data-reveal>
+            <div data-reveal="left">
               <div className="eyebrow">Khoảng trống vận hành</div>
               <h2>
                 Không thiếu công cụ. <span className="italic-accent">Thiếu một mạch dữ liệu liền.</span>
@@ -102,7 +103,7 @@ function App() {
                 dung, khách hàng và quản trị — để mọi con số nói cùng một ngôn ngữ.
               </p>
             </div>
-            <div className="pain-list" data-reveal data-delay="1">
+            <div className="pain-list" data-stagger="right">
               {pains.map((pain, index) => (
                 <div className="pain-row" key={pain}>
                   <span className="pain-index">0{index + 1}</span>
@@ -135,9 +136,9 @@ function App() {
               </p>
             </div>
 
-            <div className="capability-grid">
+            <div className="capability-grid" data-stagger="lift">
               {capabilities.map((item) => (
-                <article className="capability-card" data-reveal key={item.title}>
+                <article className="capability-card" key={item.title}>
                   <div className="card-topline">
                     <div className="icon-shell">{item.icon}</div>
                     <span>{item.index}</span>
@@ -153,7 +154,7 @@ function App() {
 
         <section className="section-pad workflow-section" id="cach-hoat-dong">
           <div className="container workflow-grid">
-            <div className="workflow-copy" data-reveal>
+            <div className="workflow-copy" data-reveal="left">
               <div className="eyebrow">Từ tín hiệu đến hành động</div>
               <h2>
                 Không chỉ nhìn dữ liệu. <span className="italic-accent">Hệ thống giúp đội ngũ hành động.</span>
@@ -166,7 +167,7 @@ function App() {
                 Đăng ký demo <ArrowRight />
               </a>
             </div>
-            <div className="workflow-rail" data-reveal data-delay="1">
+            <div className="workflow-rail" data-stagger="right">
               <WorkflowStep
                 number="01"
                 title="Kết nối"
@@ -187,7 +188,7 @@ function App() {
         </section>
 
         <section className="section-pad">
-          <div className="container model-card" data-reveal>
+          <div className="container model-card" data-reveal="scale">
             <div>
               <div className="eyebrow">Đa mô hình ngay từ thiết kế</div>
               <h2>
@@ -198,7 +199,7 @@ function App() {
                 dài và Seedance cho video. Kiến trúc không khoá doanh nghiệp vào một nhà cung cấp duy nhất.
               </p>
             </div>
-            <div className="model-cloud" aria-label="Các mô hình có thể tích hợp">
+            <div className="model-cloud" aria-label="Các mô hình có thể tích hợp" data-stagger="scale">
               {models.map((model) => (
                 <div className="model-pill" key={model}>
                   {model}
@@ -214,7 +215,7 @@ function App() {
 
         <section className="section-pad" id="thuc-te">
           <div className="container case-grid">
-            <div className="case-panel" data-reveal>
+            <div className="case-panel" data-reveal="left">
               <div className="eyebrow">Bài toán bất động sản thực tế</div>
               <h2>
                 Sinh ra từ bài toán vận hành thật
@@ -231,7 +232,7 @@ function App() {
                 Từ nhu cầu đo hiệu quả quảng cáo, hệ thống được mở rộng thành lớp AI cho chiến dịch, báo cáo, phân tích
                 dữ liệu, hỏi đáp và sản xuất nội dung đa định dạng.
               </p>
-              <div className="case-checks">
+              <div className="case-checks" data-stagger="left">
                 {[
                   'Tối ưu chiến dịch tự động',
                   'Phân tích dữ liệu thời gian thực',
@@ -245,7 +246,7 @@ function App() {
                 ))}
               </div>
             </div>
-            <div className="insight-card" data-reveal data-delay="1">
+            <div className="insight-card" data-reveal="right" data-delay="1">
               <div className="insight-header">
                 <span>Bản tin điều hành</span>
                 <span className="status-dot">Trực tiếp</span>
@@ -272,7 +273,7 @@ function App() {
         </section>
 
         <section className="section-pad cta-section" id="demo">
-          <div className="container cta-card" data-reveal>
+          <div className="container cta-card" data-reveal="scale">
             <div>
               <div className="eyebrow">Sẵn sàng nhìn dữ liệu theo cách khác?</div>
               <h2>Đưa một chiến dịch thật. Locaith dựng luồng demo thật.</h2>
@@ -281,7 +282,7 @@ function App() {
                 sản của bạn.
               </p>
             </div>
-            <div className="cta-actions">
+            <div className="cta-actions" data-stagger="scale">
               <a className="button button-primary" href={mailto}>
                 Đăng ký demo <ArrowRight />
               </a>
@@ -294,15 +295,64 @@ function App() {
       </main>
 
       <footer>
-        <div className="container footer-row">
-          <div className="wordmark">
-            <img className="wordmark-logo" src="/logo-locaith.png" alt="Logo Locaith" width="28" height="28" />
-            <span>LOCAITH</span>
-            <small>AI BĐS</small>
+        <div className="container footer-grid" data-stagger="lift">
+          <div className="footer-brand">
+            <div className="wordmark">
+              <img className="wordmark-logo" src="/logo-locaith.png" alt="Logo Locaith" width="28" height="28" />
+              <span>LOCAITH</span>
+              <small>AI BĐS</small>
+            </div>
+            <p>
+              Locaith Solution Tech là doanh nghiệp công nghệ Việt Nam nghiên cứu và ứng dụng trí tuệ nhân tạo vào các
+              quy trình nghiệp vụ của doanh nghiệp, cơ quan hành chính và đời sống.
+            </p>
+            <ul className="footer-badges">
+              <li>Top 4 Google Startup Boost Camp 2025</li>
+              <li>50.000+ người dùng</li>
+              <li>Thành viên NIC</li>
+            </ul>
           </div>
-          <p>Nền tảng đo lường và tự động hoá Marketing Bất động sản</p>
-          <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+
+          <nav className="footer-col" aria-label="Hệ sinh thái sản phẩm">
+            <h4>Hệ sinh thái</h4>
+            <ul>
+              <li><a href="https://locaith.com" target="_blank" rel="noreferrer noopener">Locaith Chat — trợ lý AI</a></li>
+              <li><a href="https://convert.locaith.com" target="_blank" rel="noreferrer noopener">Locaith Convert — chuyển đổi &amp; dịch tài liệu</a></li>
+              <li><a href="https://locaith.com" target="_blank" rel="noreferrer noopener">Locaith OS — hệ điều hành cho Agent AI</a></li>
+              <li><a href="https://locaith.com" target="_blank" rel="noreferrer noopener">Compose Word — soạn thảo chuẩn Nghị định 30</a></li>
+              <li><a href="https://locaith.com" target="_blank" rel="noreferrer noopener">Design Studio — thiết kế bằng AI</a></li>
+            </ul>
+          </nav>
+
+          <div className="footer-col">
+            <h4>Liên hệ</h4>
+            <ul>
+              <li>NIC — Trung tâm Đổi mới Sáng tạo Quốc gia, 7 Tôn Thất Thuyết, Hà Nội</li>
+              <li>Số 1 Hoàng Đạo Thúy, Thanh Xuân, Hà Nội</li>
+              <li>
+                <a href={`mailto:${siteConfig.contactEmail}`}>{siteConfig.contactEmail}</a>
+              </li>
+              <li>Thứ 2 – Thứ 6: 8:00 – 18:00 · Thứ 7: 8:00 – 12:00</li>
+            </ul>
+          </div>
+
+          <nav className="footer-col" aria-label="Thông tin và pháp lý">
+            <h4>Thông tin</h4>
+            <ul>
+              <li><a href="https://locaith.com/about" target="_blank" rel="noreferrer noopener">Giới thiệu Locaith</a></li>
+              <li><a href="https://locaith.com/contact" target="_blank" rel="noreferrer noopener">Liên hệ hợp tác</a></li>
+              <li><a href="https://locaith.com/privacy-policy" target="_blank" rel="noreferrer noopener">Chính sách bảo mật</a></li>
+              <li><a href="https://locaith.com/terms" target="_blank" rel="noreferrer noopener">Điều khoản sử dụng</a></li>
+              <li><a href="https://m.me/803194724875408" target="_blank" rel="noreferrer noopener">Nhắn tin qua Messenger</a></li>
+            </ul>
+          </nav>
         </div>
+
+        <div className="container footer-legal">
+          <p>© 2026 Locaith Solution Tech. Bảo lưu mọi quyền.</p>
+          <p>Nền tảng đo lường và tự động hoá Marketing Bất động sản</p>
+        </div>
+
         <div className="container">
           <details className="photo-credits">
             <summary>Ảnh nền: dự án bất động sản Việt Nam · nguồn Wikimedia Commons</summary>
@@ -398,15 +448,42 @@ function Hero({ mailto }: { mailto: string }) {
       <div className="hero-grid-lines" aria-hidden="true" />
 
       <div className="container hero-inner cinema">
-        <div className="eyebrow eyebrow-accent">{siteConfig.productTagline}</div>
+        <KineticText
+          as="div"
+          className="eyebrow eyebrow-accent"
+          startDelay={260}
+          typeMs={20}
+          segments={[{ text: siteConfig.productTagline }]}
+        />
         <h1 className="hero-title">
-          <span>Mỗi đồng ngân sách</span>
-          <span className="italic-accent">đều biết nó đã đi về đâu.</span>
+          <KineticText
+            as="span"
+            className="hero-line"
+            startDelay={1150}
+            typeMs={34}
+            segments={[{ text: 'Mỗi đồng ngân sách' }]}
+          />
+          <KineticText
+            as="span"
+            className="hero-line"
+            startDelay={1900}
+            riseMs={145}
+            segments={[{ text: 'đều biết nó đã đi về đâu.', mode: 'rise', gradient: true }]}
+          />
         </h1>
-        <p className="lead hero-lead">
-          Locaith nối quảng cáo với dữ liệu khách hàng, chiến dịch và báo cáo — để chủ đầu tư và sàn phân phối nhìn thấy
-          hiệu quả thật và ra quyết định ngay trên số liệu.
-        </p>
+        <KineticText
+          as="p"
+          className="lead hero-lead"
+          startDelay={2700}
+          typeMs={11}
+          riseMs={90}
+          segments={[
+            { text: 'Locaith nối quảng cáo với dữ liệu khách hàng, chiến dịch và báo cáo — để chủ đầu tư và sàn phân phối' },
+            { text: 'nhìn thấy hiệu quả thật', mode: 'rise', className: 'lead-em' },
+            { text: 'và ra quyết định' },
+            { text: 'ngay trên số liệu.', mode: 'rise', className: 'lead-em' },
+          ]}
+        />
         <div className="hero-actions">
           <a className="button button-primary" href="#san-pham">
             Xem sản phẩm <ArrowRight />

@@ -31,6 +31,7 @@ npm run preview
 | `src/App.tsx` | Toàn bộ các phần của trang |
 | `src/components/Stage.tsx` | Phần cuộn khoá kể chuyện (scrollytelling) |
 | `src/components/Backdrop.tsx` | Nền lưới ảnh dự án đặt chéo, trôi dọc |
+| `src/components/KineticText.tsx` | Chữ chạy ở đầu trang: gõ máy + nổi lên dần |
 | `src/lib/useStage.ts` | Hook đo tiến độ cuộn và tính chuyển động giả 3D |
 | `src/content.ts` | Nội dung từng nhịp cuộn — sửa chữ ở đây |
 | `src/config.ts` | Tên miền, email nhận demo, tên case study |
@@ -49,11 +50,21 @@ Sửa nội dung các nhịp trong `src/content.ts` — thêm hoặc bớt phầ
 
 5 ảnh trong `public/exhibits/` được bóc từ phụ lục bản kế hoạch triển khai (trang 3 trở đi). Các con số trong ảnh là dữ liệu minh hoạ — câu ghi chú dưới phần cuộn đã nói rõ điều này, đừng bỏ đi.
 
+## Hiệu ứng cuộn dùng chung
+
+Cả trang chỉ có **một** ngôn ngữ chuyển động: trồi lên + nét dần + ngả nhẹ theo trục X, cùng nhịp với phần cuộn khoá ở giữa trang.
+
+- Gắn `data-reveal` cho một khối bất kỳ là nó hiện dần khi cuộn tới. Biến thể: `lift` (mặc định), `left`, `right`, `scale`, `line`.
+- Gắn `data-stagger="<biến thể>"` cho một container thì mọi thẻ con tự nhận `data-reveal` và nối nhau xuất hiện, không cần khai báo từng thẻ.
+- Toàn bộ tắt sạch khi người dùng bật "giảm chuyển động".
+
+Ở đầu trang, câu dẫn chạy như đánh máy còn những cụm cần nhấn thì nổi lên dần từng từ — xem `src/components/KineticText.tsx`. Cụm nhấn không dùng `background-clip: text` được (chữ trong suốt thì không có gì để mờ dần), nên màu chuyển teal → đồng được tính cho từng từ trong JS.
+
 ## Ảnh nền dự án
 
-Nền trang là lưới ảnh các dự án / công trình bất động sản Việt Nam, đặt chéo 13° và trôi dọc chậm bằng CSS transform (không dùng GIF: nhẹ hơn nhiều lần, không vỡ màu, co giãn theo mọi màn hình và tự dừng khi người dùng bật "giảm chuyển động").
+Nền trang là lưới ảnh các dự án, khu đô thị và khu nghỉ dưỡng bất động sản Việt Nam, đặt chéo 13° và trôi dọc chậm bằng CSS transform (không dùng GIF: nhẹ hơn nhiều lần, không vỡ màu, co giãn theo mọi màn hình và tự dừng khi người dùng bật "giảm chuyển động").
 
-Ảnh lấy từ Wikimedia Commons theo giấy phép cho phép dùng lại — tác giả và giấy phép ghi trong [CREDITS.md](CREDITS.md) và hiện ở cuối trang.
+Ảnh lấy từ Wikimedia Commons theo giấy phép cho phép dùng lại — tác giả và giấy phép ghi trong [CREDITS.md](CREDITS.md) và hiện ở cuối trang. Danh sách file trong `tools/fetch-project-photos.mjs` được **chọn tay và đã xem tận mắt từng ảnh**; tìm kiếm tự động trên Commons trả về quá nhiều ảnh lạc đề (biển hiệu, nội thất, thậm chí ảnh chụp ở nước khác) nên đã bỏ.
 
 Tải lại bộ ảnh:
 
@@ -62,7 +73,7 @@ npm i -D sharp
 node tools/fetch-project-photos.mjs
 ```
 
-**Dùng ảnh dự án của chính doanh nghiệp:** bỏ file vào `public/projects/` theo tên `tile-01.webp` … `tile-NN.webp` (tỷ lệ 4:5, tông sáng), rồi cập nhật `src/credits.ts` cho khớp. Cách này chuẩn nhất vì hiện đúng dự án đang bán và không vướng bản quyền.
+**Dùng ảnh dự án của chính doanh nghiệp:** bỏ file vào `public/projects/` theo tên `tile-01.webp` … `tile-NN.webp` (tỷ lệ 4:5, tông sáng), rồi cập nhật `src/credits.ts` cho khớp. Cách này chuẩn nhất vì hiện đúng dự án đang mở bán và không vướng bản quyền.
 
 Chỉnh độ đậm nhạt của nền: `.backdrop-page` và `.backdrop-hero` trong `src/styles.css`.
 

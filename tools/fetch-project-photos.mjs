@@ -1,14 +1,19 @@
 /**
- * Tải ảnh thật của các dự án / công trình bất động sản Việt Nam từ Wikimedia
- * Commons, cắt về tỷ lệ 4:5 và làm sáng lại để chạy nền landing page.
+ * Tải ảnh nền cho landing page: ảnh thật của các dự án, khu đô thị và khu nghỉ
+ * dưỡng bất động sản Việt Nam, lấy từ Wikimedia Commons.
  *
+ *   npm i -D sharp
  *   node tools/fetch-project-photos.mjs
  *
- * Chỉ lấy ảnh có giấy phép cho phép dùng lại (CC BY / CC BY-SA / Public domain).
- * Thông tin tác giả + giấy phép được ghi ra src/credits.ts và CREDITS.md.
+ * Danh sách file dưới đây được chọn tay và đã xem tận mắt từng ảnh — tìm kiếm
+ * tự động trên Commons trả về quá nhiều ảnh lạc đề (biển hiệu, nội thất, thậm
+ * chí ảnh chụp ở nước khác), nên không dùng.
+ *
+ * Mọi file đều có giấy phép cho phép dùng lại; tác giả và giấy phép được ghi ra
+ * src/credits.ts và CREDITS.md rồi hiện ở cuối trang.
  *
  * Muốn dùng ảnh dự án của chính doanh nghiệp: bỏ file vào public/projects/ theo
- * tên tile-01.webp … tile-NN.webp (tỷ lệ 4:5) là xong, không cần chạy script.
+ * tên tile-01.webp … tile-NN.webp (tỷ lệ 4:5) và sửa src/credits.ts cho khớp.
  */
 import sharp from 'sharp'
 import fs from 'node:fs'
@@ -19,94 +24,64 @@ const UA = 'LocaithLandingBot/1.0 (https://ai-bds.locaith.com; locaithsolution@l
 const TILE_W = 520
 const TILE_H = 650
 
-/** Từ khoá tra cứu → tên dự án hiển thị trong phần ghi nguồn. */
-const TARGETS = [
-  ['Landmark 81', 'Landmark 81 · Vinhomes Central Park'],
-  ['Vinhomes Central Park', 'Vinhomes Central Park, TP.HCM'],
-  ['Vinhomes Ocean Park', 'Vinhomes Ocean Park, Hà Nội'],
-  ['Vinhomes Grand Park', 'Vinhomes Grand Park, TP.HCM'],
-  ['Bitexco Financial Tower', 'Bitexco Financial Tower, TP.HCM'],
-  ['Keangnam Hanoi Landmark Tower', 'Keangnam Landmark 72, Hà Nội'],
-  ['Times City Hanoi', 'Times City, Hà Nội'],
-  ['Ecopark Hung Yen Vietnam', 'Ecopark, Hưng Yên'],
-  ['Phu My Hung Ho Chi Minh City', 'Phú Mỹ Hưng, TP.HCM'],
-  ['Royal City Hanoi', 'Royal City, Hà Nội'],
-  ['Masteri Thao Dien', 'Masteri Thảo Điền, TP.HCM'],
-  ['Saigon Pearl', 'Saigon Pearl, TP.HCM'],
-  ['Thu Thiem New Urban Area', 'Thủ Thiêm, TP.HCM'],
-  ['Ciputra Hanoi International City', 'Ciputra, Hà Nội'],
-  ['Ho Chi Minh City skyline', 'TP.HCM'],
-  ['Hanoi skyline', 'Hà Nội'],
-  ['Da Nang skyline Vietnam', 'Đà Nẵng'],
-  ['Nha Trang skyline Vietnam', 'Nha Trang'],
+/** [tên file trên Commons, nhãn hiển thị trong phần ghi nguồn] */
+const FILES = [
+  ['Ho Chi Minh City - DJI 0124-HDR.jpg', 'TP.HCM nhìn từ trên cao'],
+  ['Landmark 81 viewed from Thu Thiem.png', 'Landmark 81 · Vinhomes Central Park, TP.HCM'],
+  ['Bitexco Financial Tower under-construction.JPG', 'Bitexco Financial Tower, TP.HCM'],
+  ['Ho Chi Minh City skyline (49399217481).jpg', 'Trung tâm TP.HCM'],
+  ['Thu Thiem urban area, Saigon (20230705 1511).jpg', 'Khu đô thị Thủ Thiêm, TP.HCM'],
+  ['Đô thị Phú mỹ hưng, q7, tphcm Việtnam - panoramio.jpg', 'Đô thị Phú Mỹ Hưng, TP.HCM'],
+  ['Landmark72swimmingpool.JPG', 'Keangnam Landmark 72, Hà Nội'],
+  ['An aerial view of Ecopark, Van Giang, Xuan Quan, Hung Yen.jpg', 'Ecopark, Hưng Yên'],
+  ['Private Beach of InterContinental Danang Sun Peninsula.jpg', 'InterContinental Đà Nẵng Sun Peninsula'],
+  ['Vĩnh Nguyên, NHA Trang, Khanh Hoa Province, Vietnam - panoramio (30).jpg', 'Vĩnh Nguyên, Nha Trang'],
+  ['Bờ biển ở Nha Trang.jpg', 'Vịnh Nha Trang'],
+  ['Phu Quoc beach Saigon Phu Quoc Resort and Spa (2).jpg', 'Khu nghỉ dưỡng biển Phú Quốc'],
+  ['Palm trees beach Da Nang.jpg', 'Biển Mỹ Khê, Đà Nẵng'],
 ]
-
-/** Ảnh đêm hoặc ảnh quá tối bị loại — nền trang là tông sáng. */
-const MIN_BRIGHTNESS = 96
-const DARK_TITLE = /(night|đêm|evening|dusk|sunset|dark)/i
-
-const OK_LICENSE = /^(cc by|cc by-sa|cc0|public domain|cc-by)/i
 
 const strip = (value) => String(value || '').replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()
 
-async function api(params) {
-  const url = 'https://commons.wikimedia.org/w/api.php?' + new URLSearchParams({ format: 'json', ...params })
+async function imageInfo(titles) {
+  const url =
+    'https://commons.wikimedia.org/w/api.php?' +
+    new URLSearchParams({
+      format: 'json',
+      action: 'query',
+      titles: titles.map((title) => `File:${title}`).join('|'),
+      prop: 'imageinfo',
+      iiprop: 'url|size|extmetadata',
+      iiurlwidth: '1400',
+    })
   const res = await fetch(url, { headers: { 'User-Agent': UA } })
   if (!res.ok) throw new Error(`API ${res.status}`)
-  return res.json()
-}
+  const data = await res.json()
 
-async function search(term) {
-  const data = await api({
-    action: 'query',
-    generator: 'search',
-    gsrsearch: `${term} filetype:bitmap`,
-    gsrnamespace: '6',
-    gsrlimit: '10',
-    prop: 'imageinfo',
-    iiprop: 'url|size|extmetadata',
-    iiurlwidth: '1100',
-  })
-  const pages = data?.query?.pages
-  if (!pages) return []
-  return Object.values(pages)
-    .map((page) => {
-      const info = page.imageinfo?.[0]
-      if (!info) return null
-      const meta = info.extmetadata || {}
-      return {
-        title: page.title,
-        thumb: info.thumburl,
-        width: info.width,
-        height: info.height,
-        page: info.descriptionurl,
-        license: strip(meta.LicenseShortName?.value),
-        author: strip(meta.Artist?.value),
-      }
+  const found = new Map()
+  for (const page of Object.values(data?.query?.pages || {})) {
+    const info = page.imageinfo?.[0]
+    if (!info) continue
+    const meta = info.extmetadata || {}
+    found.set(page.title.replace(/^File:/, '').replace(/_/g, ' '), {
+      thumb: info.thumburl,
+      page: info.descriptionurl,
+      license: strip(meta.LicenseShortName?.value),
+      author: strip(meta.Artist?.value),
     })
-    .filter(Boolean)
-    .filter((item) => item.thumb && item.width >= 900 && OK_LICENSE.test(item.license))
-    .filter((item) => !/\.svg$/i.test(item.title))
+  }
+  return found
 }
 
-fs.mkdirSync(OUT, { recursive: true })
-for (const file of fs.readdirSync(OUT)) fs.unlinkSync(path.join(OUT, file))
-
-const credits = []
-let index = 0
-
-/**
- * Đưa mọi ảnh về cùng một tông: đủ sáng để chữ đè lên vẫn đọc được, nhưng vẫn
- * giữ màu và chi tiết công trình chứ không bị bệt trắng.
- */
+/** Đưa mọi ảnh về cùng một tông: đủ sáng để chữ đè lên vẫn đọc, vẫn giữ màu và chi tiết. */
 async function toTile(buffer, outPath) {
   const base = sharp(buffer)
     .resize({ width: TILE_W, height: TILE_H, fit: 'cover', position: 'attention' })
-    .modulate({ saturation: 0.86 })
+    .modulate({ saturation: 0.88 })
 
   const { channels } = await base.clone().stats()
   const mean = channels.slice(0, 3).reduce((sum, c) => sum + c.mean, 0) / 3
-  const gain = Math.min(1.9, Math.max(1, 150 / Math.max(mean, 1)))
+  const gain = Math.min(2.1, Math.max(1, 150 / Math.max(mean, 1)))
 
   await base
     .linear(gain, 10)
@@ -114,41 +89,34 @@ async function toTile(buffer, outPath) {
     .toColourspace('srgb')
     .webp({ quality: 76, effort: 6 })
     .toFile(outPath)
-
-  return mean
 }
 
-for (const [term, label] of TARGETS) {
-  let results = []
-  try {
-    results = await search(term)
-  } catch (error) {
-    console.log('!', term, error.message)
+fs.mkdirSync(OUT, { recursive: true })
+for (const file of fs.readdirSync(OUT)) fs.unlinkSync(path.join(OUT, file))
+
+const info = await imageInfo(FILES.map(([name]) => name))
+const credits = []
+let index = 0
+
+for (const [name, label] of FILES) {
+  const meta = info.get(name)
+  if (!meta?.thumb) {
+    console.log('- không tìm thấy trên Commons:', name)
+    continue
   }
 
-  let done = false
-  for (const candidate of results.slice(0, 6)) {
-    if (DARK_TITLE.test(candidate.title)) continue
-
-    const response = await fetch(candidate.thumb, { headers: { 'User-Agent': UA } })
-    if (!response.ok) continue
-    const buffer = Buffer.from(await response.arrayBuffer())
-
-    const probe = await sharp(buffer).stats()
-    const mean = probe.channels.slice(0, 3).reduce((sum, c) => sum + c.mean, 0) / 3
-    if (mean < MIN_BRIGHTNESS) continue
-
-    index += 1
-    const name = `tile-${String(index).padStart(2, '0')}.webp`
-    await toTile(buffer, path.join(OUT, name))
-
-    credits.push({ file: name, project: label, author: candidate.author, license: candidate.license, source: candidate.page })
-    console.log('+', name, '←', label, `(${candidate.license}, sáng ${mean.toFixed(0)})`)
-    done = true
-    break
+  const response = await fetch(meta.thumb, { headers: { 'User-Agent': UA } })
+  if (!response.ok) {
+    console.log('- tải lỗi:', name, response.status)
+    continue
   }
 
-  if (!done) console.log('- bỏ qua (không có ảnh sáng hợp lệ):', term)
+  index += 1
+  const file = `tile-${String(index).padStart(2, '0')}.webp`
+  await toTile(Buffer.from(await response.arrayBuffer()), path.join(OUT, file))
+
+  credits.push({ file, project: label, author: meta.author, license: meta.license, source: meta.page })
+  console.log('+', file, '←', label, `(${meta.license})`)
 }
 
 fs.writeFileSync(
@@ -160,8 +128,10 @@ fs.writeFileSync(
 
 fs.writeFileSync(
   'CREDITS.md',
-  `# Nguồn ảnh nền\n\nẢnh các dự án / công trình bất động sản Việt Nam dùng làm nền trang, lấy từ Wikimedia Commons theo giấy phép cho phép dùng lại.\n\n` +
-    credits.map((c) => `- **${c.project}** — ${c.author || 'Không rõ tác giả'} · ${c.license} · [nguồn](${c.source})`).join('\n') +
+  `# Nguồn ảnh nền\n\nẢnh các dự án, khu đô thị và khu nghỉ dưỡng bất động sản Việt Nam dùng làm nền trang, lấy từ Wikimedia Commons theo giấy phép cho phép dùng lại.\n\n` +
+    credits
+      .map((c) => `- **${c.project}** — ${c.author || 'Không rõ tác giả'} · ${c.license} · [nguồn](${c.source})`)
+      .join('\n') +
     `\n`,
 )
 

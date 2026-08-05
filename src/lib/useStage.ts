@@ -93,10 +93,26 @@ export function useScrolledPast(offset = 24) {
   return passed
 }
 
-/** Reveal-on-enter for every `[data-reveal]` node currently in the document. */
+/**
+ * Hiện dần mọi phần tử `[data-reveal]` khi cuộn tới, dùng chung một ngôn ngữ
+ * chuyển động với phần cuộn khoá: trồi lên + nét dần + nghiêng nhẹ theo trục X.
+ *
+ * Container gắn `data-stagger` sẽ tự gán `data-reveal` và thứ tự `--i` cho từng
+ * phần tử con, nên các thẻ trong một lưới nối nhau chứ không hiện cùng lúc.
+ */
 export function useRevealOnScroll() {
   useEffect(() => {
+    document.querySelectorAll<HTMLElement>('[data-stagger]').forEach((group) => {
+      const variant = group.dataset.stagger || 'lift'
+      Array.from(group.children).forEach((child, index) => {
+        const node = child as HTMLElement
+        if (!node.hasAttribute('data-reveal')) node.setAttribute('data-reveal', variant)
+        node.style.setProperty('--i', String(index))
+      })
+    })
+
     const nodes = document.querySelectorAll<HTMLElement>('[data-reveal]')
+
     if (prefersReducedMotion()) {
       nodes.forEach((node) => {
         node.dataset.visible = 'true'
@@ -113,7 +129,7 @@ export function useRevealOnScroll() {
           observer.unobserve(node)
         })
       },
-      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0.08, rootMargin: '0px 0px -10% 0px' },
     )
 
     nodes.forEach((node) => observer.observe(node))
