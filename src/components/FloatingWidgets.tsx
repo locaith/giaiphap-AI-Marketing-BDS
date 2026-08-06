@@ -17,8 +17,8 @@ function brandChatButton() {
 }
 
 /**
- * Hai kênh liên hệ nổi ở chân màn hình: khung chat Zalo Official Account bên
- * trái, trợ lý hội thoại bên phải — đặt hai bên để không đè lên nhau.
+ * Hai kênh liên hệ nổi ở góc phải dưới, xếp chồng: khung chat Zalo Official
+ * Account nằm trên, nút trợ lý hội thoại nằm dưới.
  *
  * Khung Zalo do SDK của Zalo dựng và mở ngay trong trang. SDK chỉ chạy trên
  * domain đã khai báo ở Zalo Official Account Manager; nếu nó không dựng được

@@ -1767,26 +1767,30 @@ html.snap-stage {
    Khung chat Zalo và nút dự phòng
    --------------------------------------------------------- */
 
-/* SDK Zalo mặc định neo góc phải dưới, đẩy sang trái để không đè nút trợ lý */
+/*
+  Hai nút xếp chồng ở góc phải dưới: Zalo nằm trên, trợ lý nằm dưới.
+  Nút trợ lý cao 60 nên Zalo lùi lên 92 để chừa khoảng cách.
+*/
 .zalo-chat-widget {
   position: fixed !important;
-  left: 20px !important;
-  right: auto !important;
-  bottom: 20px !important;
+  right: 20px !important;
+  left: auto !important;
+  bottom: 92px !important;
   z-index: 9998 !important;
 }
 
 @media (max-width: 640px) {
   .zalo-chat-widget {
-    left: 14px !important;
-    bottom: 14px !important;
+    right: 20px !important;
+    bottom: 92px !important;
   }
 }
 
 .zalo-float {
   position: fixed;
-  left: 20px;
-  bottom: 20px;
+  right: 20px;
+  left: auto;
+  bottom: 92px;
   z-index: 9999;
   display: inline-flex;
   align-items: center;
@@ -1808,8 +1812,8 @@ html.snap-stage {
 
 @media (max-width: 640px) {
   .zalo-float {
-    left: 14px;
-    bottom: 14px;
+    right: 20px;
+    bottom: 92px;
     padding: 12px;
   }
 

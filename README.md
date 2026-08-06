@@ -80,7 +80,7 @@ Hai điều bắt buộc khi sửa phần này:
 ## Kênh liên hệ
 
 - Mọi nút kêu gọi đều mở **Zalo Official Account** `siteConfig.zaloUrl`. Đổi OA thì sửa `zaloOaId` và `zaloUrl` trong `src/config.ts`.
-- **Khung chat Zalo** mở ngay trong trang bằng SDK chính thức, neo góc trái dưới; nút trợ lý Phê Nâu ở góc phải dưới — đặt hai bên để không đè nhau. Biểu tượng nút trợ lý được thay bằng logo Locaith sau khi script bên ngoài dựng xong nút (dùng `MutationObserver` vì script nạp không đồng bộ).
+- **Khung chat Zalo** mở ngay trong trang bằng SDK chính thức. Hai nút xếp chồng ở góc phải dưới: Zalo nằm trên, trợ lý Phê Nâu nằm dưới. Nút trợ lý cao 60px và neo ở `bottom: 20px` nên Zalo đặt `bottom: 92px` để chừa khoảng cách — đổi cỡ nút thì phải chỉnh lại con số này. Biểu tượng nút trợ lý được thay bằng logo Locaith sau khi script bên ngoài dựng xong nút (dùng `MutationObserver` vì script nạp không đồng bộ).
 - Div `.zalo-chat-widget` **phải tạo bằng DOM thuần**, không render qua React: React gắn thuộc tính nội bộ lên node, SDK Zalo đọc node đó rồi `JSON.stringify` và văng lỗi vòng lặp liên tục. SDK chỉ chạy trên domain đã khai báo trong Zalo Official Account Manager — nếu không dựng được widget, một nút dự phòng sẽ hiện ra và mở trang OA.
 - Hai trợ lý Phê Nâu khác nhau: `phenauWidgetAgentId` cho nút nổi, `phenauChatAgentId` cho khung trò chuyện thử trong phần Tư vấn.
 - Phần **Đặt lịch** mời khách hẹn gặp xem demo tại NIC hoặc trực tuyến, kèm hai ảnh nơi làm việc đổi qua lại. Không thu thập thông tin tại chỗ — mọi lối liên hệ đều dẫn về Zalo hoặc email.
